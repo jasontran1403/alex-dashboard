@@ -86,6 +86,7 @@ export default function DashboardAppPage() {
   const [currentAccessToken] = useState(localStorage.getItem("access_token") ? localStorage.getItem("access_token") : "");
   const [refCode, setRefCode] = useState("");
   const [listTransaction2, setListTransaction2] = useState([]);
+  const [prevData, setPrevData] = useState([]);
 
   const [open, setOpen] = useState(null);
 
@@ -172,6 +173,26 @@ export default function DashboardAppPage() {
       .then((response) => {
         const firstFiveItems = response.data.slice(0, 5);
         setListTransaction(firstFiveItems);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
+  }, []);
+
+  useEffect(() => {
+    const config = {
+      method: 'get',
+      maxBodyLength: Infinity,
+      url: `https://jellyfish-app-kafzn.ondigitalocean.app/api/v1/secured/get-prev-data/${currentEmail}`,
+      headers: {
+        'Authorization': `Bearer ${currentAccessToken}`
+      }
+    };
+
+    axios.request(config)
+      .then((response) => {
+        setPrevData(response.data);
       })
       .catch((error) => {
         console.log(error);
@@ -272,21 +293,20 @@ export default function DashboardAppPage() {
           <Grid item xs={12} sm={6} md={6}>
             <AppCurrentVisits
               title="Assets last month"
-              change={-321}
+              change={balance - prevData?.balance}
               chartData={[
-                { label: 'Profit', value: 4344 },
-                { label: 'Withdraw/Deposit', value: 5435 },
-                { label: 'IB', value: 1443 }
+                { label: 'Profit', value:  prevData.commission ? prevData.commission : 0.5 },
+                { label: 'Withdraw/Deposit', value: prevData.transaction ? prevData.transaction : 0.5 },
               ]}
               chartColors={[
                 theme.palette.success.main,
                 theme.palette.primary.main,
-                theme.palette.warning.main
               ]}
             />
           </Grid>
 
-          {/* <Grid item xs={12} sm={6} md={3}>
+          {/* // { label: 'IB', value: 3 } // theme.palette.warning.main
+          <Grid item xs={12} sm={6} md={3}>
             <AppWidgetSummary title="Item Orders" total={1723315} color="warning" icon={'ant-design:windows-filled'} />
           </Grid>
 
