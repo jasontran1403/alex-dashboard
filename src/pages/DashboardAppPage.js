@@ -88,7 +88,9 @@ export default function DashboardAppPage() {
   const [currentAccessToken] = useState(localStorage.getItem("access_token") ? localStorage.getItem("access_token") : "");
   const [refCode, setRefCode] = useState("");
   const [listTransaction2, setListTransaction2] = useState([]);
-  const [prevData, setPrevData] = useState([]);
+  const [prevBalance, setPrevBalance] = useState([]);
+  const [prevProfit, setPrevProfit] = useState([]);
+  const [prevTransaction, setPrevTransaction] = useState([]);
 
   const [open, setOpen] = useState(null);
 
@@ -194,7 +196,10 @@ export default function DashboardAppPage() {
 
     axios.request(config)
       .then((response) => {
-        setPrevData(response.data);
+        // setPrevData(response.data);
+        setPrevBalance(response.data.balance);
+        setPrevProfit(response.data.commission);
+        setPrevTransaction(response.data.transaction);
       })
       .catch((error) => {
         console.log(error);
@@ -295,14 +300,14 @@ export default function DashboardAppPage() {
           <Grid item xs={12} sm={6} md={6}>
             <AppCurrentVisits
               title="Assets yesterday"
-              change={balance - prevData?.balance}
+              change={balance - prevBalance}
               chartData={[
-                { label: 'Profit', value: prevData.commission > 0 ? prevData.commission : 0.5 },
-                { label: 'Withdraw/Deposit', value: prevData.transaction > 0 ? prevData.transaction : prevData.transaction === 0 ? 0.5 : Math.abs(prevData.transaction) },
+                { label: 'Profit', value: prevProfit > 0 ? prevProfit : 0.5 },
+                { label: 'Withdraw/Deposit', value: prevTransaction > 0 ? prevTransaction : prevTransaction === 0 ? 0.5 : Math.abs(prevTransaction) },
               ]}
               chartColors={[
                 theme.palette.success.main,
-                prevData.transaction > 0 ? theme.palette.primary.main : theme.palette.error.main,
+                prevTransaction > 0 ? theme.palette.primary.main : theme.palette.error.main,
               ]}
             />
           </Grid>
