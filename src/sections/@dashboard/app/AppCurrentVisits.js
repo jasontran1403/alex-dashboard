@@ -4,7 +4,7 @@ import ReactApexChart from 'react-apexcharts';
 import { useTheme, styled } from '@mui/material/styles';
 import { Card, CardHeader } from '@mui/material';
 // utils
-import { fNumber } from '../../../utils/formatNumber';
+import { fNumber, fCurrency } from '../../../utils/formatNumber';
 // components
 import { useChart } from '../../../components/chart';
 
@@ -53,7 +53,7 @@ export default function AppCurrentVisits({ title, change, subheader, chartColors
     tooltip: {
       fillSeriesColor: false,
       y: {
-        formatter: (seriesName) => fNumber(seriesName),
+        formatter: (seriesName) => fCurrency(seriesName),
         title: {
           formatter: (seriesName) => `${seriesName}`,
         },
@@ -66,7 +66,7 @@ export default function AppCurrentVisits({ title, change, subheader, chartColors
 
   return (
     <Card {...other}>
-      <CardHeader title={title} subheader={fNumber(change)} subheaderTypographyProps={{ color: change > 0 ? "green" : "red" }} />
+      <CardHeader title={title} subheader={fCurrency(change)} subheaderTypographyProps={{ color: change > 0 ? "green" : "red" }} />
       <StyledChartWrapper dir="ltr">
         <ReactApexChart type="pie" series={chartSeries} options={chartOptions} height={280} />
       </StyledChartWrapper>

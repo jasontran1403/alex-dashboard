@@ -8,6 +8,8 @@ import { alpha, useTheme } from '@mui/material/styles';
 import { Grid, Container, Typography, MenuItem, Stack, IconButton, Popover, Input, Card, CardHeader, Box } from '@mui/material';
 // components
 import ReactApexChart from 'react-apexcharts';
+import { fNumber, fShortenNumber } from '../utils/formatNumber';
+
 import Iconify from '../components/iconify';
 // components
 import { useChart } from '../components/chart';
@@ -232,7 +234,7 @@ export default function DashboardAppPage() {
         setBalance(response.data.profit);
         setCommission(response.data.commission);
         setLabel(response.data.profits.map((profit) => convertToDate(profit.time)));
-        setProfits(response.data.profits.map((profit) => profit.amount));
+        setProfits(response.data.profits.map((profit) => profit.amount > 0 ? fShortenNumber(profit.amount) : fNumber(profit.amount)));
       })
       .catch((error) => {
         console.log(error);
@@ -295,7 +297,7 @@ export default function DashboardAppPage() {
               title="Assets last month"
               change={balance - prevData?.balance}
               chartData={[
-                { label: 'Profit', value:  prevData.commission ? prevData.commission : 0.5 },
+                { label: 'Profit', value: prevData.commission ? prevData.commission : 0.5 },
                 { label: 'Withdraw/Deposit', value: prevData.transaction ? prevData.transaction : 0.5 },
               ]}
               chartColors={[
