@@ -7,6 +7,7 @@ import { useState, useEffect } from 'react';
 import { Card, Table, Stack, Paper, Avatar, Button, Popover, Checkbox, TableRow, MenuItem, TableBody, TableCell, Container, Typography, IconButton, TableContainer, TablePagination,
 } from '@mui/material';
 import { format } from 'date-fns';
+import { fCurrency } from '../utils/formatNumber';
 // components
 import Label from '../components/label';
 import Iconify from '../components/iconify';
@@ -151,7 +152,7 @@ export default function TransactionPage() {
                       <TableRow hover key={id} tabIndex={-1}>
                         <TableCell align="left">{exnessId}</TableCell>
 
-                        <TableCell align="left">{amount}</TableCell>
+                        <TableCell align="left">{fCurrency(amount)}</TableCell>
 
                         <TableCell align="left">{handleConvertTime(time)}</TableCell>
 

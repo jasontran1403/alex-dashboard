@@ -4,6 +4,7 @@ import { Box, Stack, Link, Card, Button, Divider, Typography, CardHeader } from 
 // utils
 import { format } from 'date-fns';
 import { fToNow } from '../../../utils/formatTime';
+import { fCurrency } from '../../../utils/formatNumber';
 // components
 import Iconify from '../../../components/iconify';
 import Scrollbar from '../../../components/scrollbar';
@@ -69,7 +70,7 @@ function TransactionItem({ transaction }) {
         </Link>
 
         <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
-          from exness id {exnessId} with amount {amount}
+          from exness id {exnessId} with amount {fCurrency(amount)}
         </Typography>
       </Box>
 

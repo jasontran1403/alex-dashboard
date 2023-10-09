@@ -294,15 +294,15 @@ export default function DashboardAppPage() {
 
           <Grid item xs={12} sm={6} md={6}>
             <AppCurrentVisits
-              title="Assets last month"
+              title="Assets yesterday"
               change={balance - prevData?.balance}
               chartData={[
-                { label: 'Profit', value: prevData.commission ? prevData.commission : 0.5 },
-                { label: 'Withdraw/Deposit', value: prevData.transaction ? prevData.transaction : 0.5 },
+                { label: 'Profit', value: prevData.commission > 0 ? prevData.commission : 0.5 },
+                { label: 'Withdraw/Deposit', value: prevData.transaction > 0 ? prevData.transaction : prevData.transaction === 0 ? 0.5 : Math.abs(prevData.transaction) },
               ]}
               chartColors={[
                 theme.palette.success.main,
-                theme.palette.primary.main,
+                prevData.transaction > 0 ? theme.palette.primary.main : theme.palette.error.main,
               ]}
             />
           </Grid>
@@ -328,7 +328,7 @@ export default function DashboardAppPage() {
                 }),
               }}
             >
-              <Input type="text" value={`Tháng  ${currentMonth}`} style={{ minWidth: "150px", marginLeft: "120px", paddingLeft: "20px" }} />
+              <Input type="text" value={`Time ${currentMonth}`} style={{ minWidth: "150px", marginLeft: "120px", paddingLeft: "20px" }} />
             </IconButton>
             <Popover
               open={Boolean(open)}
