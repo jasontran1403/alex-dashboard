@@ -152,6 +152,7 @@ export default function DashboardAppPage() {
       })
       .catch((error) => {
         console.log(error);
+        console.log("Dev log");
       });
 
     const timeout = setTimeout(() => {
