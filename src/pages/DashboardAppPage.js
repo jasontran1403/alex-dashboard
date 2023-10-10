@@ -8,7 +8,7 @@ import { alpha, useTheme } from '@mui/material/styles';
 import { Grid, Container, Typography, MenuItem, Stack, IconButton, Popover, Input, Card, CardHeader, Box } from '@mui/material';
 // components
 import ReactApexChart from 'react-apexcharts';
-import { fNumber, fShortenNumber } from '../utils/formatNumber';
+import { fCurrency, fNumber, fShortenNumber } from '../utils/formatNumber';
 
 import Iconify from '../components/iconify';
 // components
@@ -239,7 +239,7 @@ export default function DashboardAppPage() {
         setBalance(response.data.profit);
         setCommission(response.data.commission);
         setLabel(response.data.profits.map((profit) => convertToDate(profit.time)));
-        setProfits(response.data.profits.map((profit) => profit.amount > 0 ? fShortenNumber(profit.amount) : fNumber(profit.amount)));
+        setProfits(response.data.profits.map((profit) => profit.amount));
       })
       .catch((error) => {
         console.log(error);
