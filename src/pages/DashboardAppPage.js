@@ -302,8 +302,8 @@ export default function DashboardAppPage() {
               title="Assets yesterday"
               change={balance - prevBalance}
               chartData={[
-                { label: 'Profit', value: prevProfit > 0 ? prevProfit : prevProfit === 0 ? 0.5 : Math.abs(prevProfit) },
-                { label: 'Withdraw/Deposit', value: prevTransaction > 0 ? prevTransaction : prevTransaction === 0 ? 0.5 : Math.abs(prevTransaction) },
+                { label: 'Profit', value: prevProfit > 0 ? prevProfit : prevProfit === 0 ? 0 : Math.abs(prevProfit) },
+                { label: 'Withdraw/Deposit', value: prevTransaction > 0 ? prevTransaction : prevTransaction === 0 ? 0 : Math.abs(prevTransaction) },
               ]}
               chartColors={[
                 prevProfit > 0 ? theme.palette.success.main : theme.palette.warning.main,
