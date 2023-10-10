@@ -42,16 +42,16 @@ export default function LoginForm2() {
       })
       return;
     }
-    if (!isValidRefferall(refferal)) {
-      Swal.fire({
-        title: "ID không hợp lệ, vui lòng thử lại!",
-        icon: "error",
-        timer: 3000,
-        position: 'center',
-        showConfirmButton: false
-      })
-      return;
-    }
+    // if (!isValidRefferall(refferal)) {
+    //   Swal.fire({
+    //     title: "ID không hợp lệ, vui lòng thử lại!",
+    //     icon: "error",
+    //     timer: 3000,
+    //     position: 'center',
+    //     showConfirmButton: false
+    //   })
+    //   return;
+    // }
 
     const data = JSON.stringify({
       "firstname": firstName,
