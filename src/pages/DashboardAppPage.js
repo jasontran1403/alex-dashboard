@@ -302,11 +302,11 @@ export default function DashboardAppPage() {
               title="Assets yesterday"
               change={balance - prevBalance}
               chartData={[
-                { label: 'Profit', value: prevProfit > 0 ? prevProfit : 0.5 },
+                { label: 'Profit', value: prevProfit > 0 ? prevProfit : prevProfit === 0 ? 0.5 : Math.abs(prevProfit) },
                 { label: 'Withdraw/Deposit', value: prevTransaction > 0 ? prevTransaction : prevTransaction === 0 ? 0.5 : Math.abs(prevTransaction) },
               ]}
               chartColors={[
-                theme.palette.success.main,
+                prevProfit > 0 ? theme.palette.success.main : theme.palette.warning.main,
                 prevTransaction > 0 ? theme.palette.primary.main : theme.palette.error.main,
               ]}
             />
