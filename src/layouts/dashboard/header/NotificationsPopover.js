@@ -4,6 +4,9 @@ import { noCase } from 'change-case';
 import { faker } from '@faker-js/faker';
 import axios from 'axios';
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
+
 // @mui
 import {
   Box,
@@ -22,6 +25,7 @@ import {
   ListItemButton,
 } from '@mui/material';
 // utils
+import { prod, dev } from "../../../utils/env";
 import { fToNow } from '../../../utils/formatTime';
 // components
 import Iconify from '../../../components/iconify';
@@ -29,6 +33,7 @@ import Scrollbar from '../../../components/scrollbar';
 
 // ----------------------------------------------------------------------
 export default function NotificationsPopover() {
+  const navigate = useNavigate();
   const [notifications, setNotifications] = useState([]);
   const [allNotifications, setAllNotifications] = useState([]);
   const [currentEmail] = useState(localStorage.getItem("email") ? localStorage.getItem("email") : "");
@@ -39,7 +44,7 @@ export default function NotificationsPopover() {
     const config = {
       method: 'get',
       maxBodyLength: Infinity,
-      url: `https://jellyfish-app-kafzn.ondigitalocean.app/api/v1/secured/get-message/email=${currentEmail}`,
+      url: `${prod}/api/v1/secured/get-message/email=${currentEmail}`,
       headers: {
         'Authorization': `Bearer ${currentAccessToken}`
       }
@@ -54,7 +59,26 @@ export default function NotificationsPopover() {
         setNotifications(firstThreeItems);
       })
       .catch((error) => {
-        console.log(error);
+        if (error.response.status === 403) {
+          Swal.fire({
+            title: "An error occured",
+            icon: "error",
+            timer: 3000,
+            position: 'center',
+            showConfirmButton: false
+          });
+        } else {
+          Swal.fire({
+            title: "Session is ended, please login again !",
+            icon: "error",
+            timer: 3000,
+            position: 'center',
+            showConfirmButton: false
+          }).then(() => {
+            localStorage.clear();
+            navigate('/login', { replace: true });
+          });
+        }
       });
 
   }, []);
@@ -64,7 +88,7 @@ export default function NotificationsPopover() {
       const config = {
         method: 'get',
         maxBodyLength: Infinity,
-        url: `https://jellyfish-app-kafzn.ondigitalocean.app/api/v1/secured/toggle-message/id=${id}`,
+        url: `${prod}/api/v1/secured/toggle-message/id=${id}`,
         headers: {
           'Authorization': `Bearer ${currentAccessToken}`
         }
@@ -89,7 +113,26 @@ export default function NotificationsPopover() {
           }
         })
         .catch((error) => {
-          console.log(error);
+          if (error.response.status === 403) {
+            Swal.fire({
+              title: "An error occured",
+              icon: "error",
+              timer: 3000,
+              position: 'center',
+              showConfirmButton: false
+            });
+          } else {
+            Swal.fire({
+              title: "Session is ended, please login again !",
+              icon: "error",
+              timer: 3000,
+              position: 'center',
+              showConfirmButton: false
+            }).then(() => {
+              localStorage.clear();
+              navigate('/login', { replace: true });
+            });
+          }
         });
     }
   }

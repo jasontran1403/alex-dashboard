@@ -7,7 +7,13 @@ export function fNumber(number) {
 }
 
 export function fCurrency(number) {
-  const format = number ? numeral(number).format('$0,0.00') : '';
+  const format = number ? `${numeral(number).format('0,0.00')} USC` : '0 USC';
+
+  return result(format, '.00');
+}
+
+export function fCurrencyUSD(number) {
+  const format = number ? `${numeral(number).format('0,0.00')} USD` : '0 USD';
 
   return result(format, '.00');
 }

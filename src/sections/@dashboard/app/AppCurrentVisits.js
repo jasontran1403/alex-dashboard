@@ -66,7 +66,7 @@ export default function AppCurrentVisits({ title, change, subheader, chartColors
 
   return (
     <Card {...other}>
-      <CardHeader title={title} subheader={fCurrency(change)} subheaderTypographyProps={{ color: change > 0 ? "green" : "red" }} />
+      <CardHeader title={title} subheader={change > 0 ? `↗ ${fCurrency(change)}` : `↙ ${fCurrency(change)}` } subheaderTypographyProps={{ color: change > 0 ? "green" : "red" }} />
       <StyledChartWrapper dir="ltr">
         <ReactApexChart type="pie" series={chartSeries} options={chartOptions} height={280} />
       </StyledChartWrapper>

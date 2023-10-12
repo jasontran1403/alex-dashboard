@@ -7,6 +7,7 @@ import { LoadingButton } from '@mui/lab';
 // components
 import Swal from 'sweetalert2';
 import Iconify from '../../../components/iconify';
+import { prod, dev } from "../../../utils/env";
 
 // ----------------------------------------------------------------------
 
@@ -49,7 +50,7 @@ export default function ForgotForm() {
     const config = {
       method: 'post',
       maxBodyLength: Infinity,
-      url: 'https://jellyfish-app-kafzn.ondigitalocean.app/api/v1/auth/getCode',
+      url: `${prod}/api/v1/auth/getCode`,
       headers: {
         'Content-Type': 'application/json'
       },
@@ -78,7 +79,15 @@ export default function ForgotForm() {
         }
       })
       .catch((error) => {
-        console.log(">>> Error ", error);
+        if (error.response.status === 403) {
+          Swal.fire({
+            title: "An error occured",
+            icon: "error",
+            timer: 3000,
+            position: 'center',
+            showConfirmButton: false
+          });
+        }
         setTimeout(() => {
           window.location.reload();
         }, 1500);
@@ -126,7 +135,7 @@ export default function ForgotForm() {
     const config = {
       method: 'post',
       maxBodyLength: Infinity,
-      url: 'https://jellyfish-app-kafzn.ondigitalocean.app/api/v1/auth/forgot-password',
+      url: `${prod}/api/v1/auth/forgot-password`,
       headers: {
         'Content-Type': 'application/json'
       },
@@ -190,11 +199,11 @@ export default function ForgotForm() {
   return (
     <>
       <Stack spacing={3}>
-        <TextField name="email" type="text" label="Email address" onChange={(e) => { setEmail(e.target.value) }} 
+        <TextField name="email" type="text" label="Email address" onChange={(e) => { setEmail(e.target.value) }}
           InputProps={{
             endAdornment: (
               <InputAdornment position="end" onClick={handleGetCode}>
-                <IconButton  edge="end">
+                <IconButton edge="end">
                   <Iconify icon={'logos:google-gmail'} />
                 </IconButton>
               </InputAdornment>

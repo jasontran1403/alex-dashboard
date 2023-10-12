@@ -2,6 +2,7 @@ import { Helmet } from 'react-helmet-async';
 import { filter } from 'lodash';
 import { sentenceCase } from 'change-case';
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 // @mui
@@ -32,6 +33,7 @@ import Iconify from '../components/iconify';
 import Scrollbar from '../components/scrollbar';
 // sections
 import { UserListHead, UserListToolbar } from '../sections/@dashboard/user';
+import { prod, dev } from "../utils/env";
 // mock
 
 const TABLE_HEAD = [
@@ -70,6 +72,7 @@ function applySortFilter(array, comparator, query) {
 }
 
 export default function ExnessPage() {
+  const navigate = useNavigate();
   const [open, setOpen] = useState(null);
 
   const [listExness, setListExness] = useState([]);
@@ -96,7 +99,7 @@ export default function ExnessPage() {
     const config = {
       method: 'get',
       maxBodyLength: Infinity,
-      url: `https://jellyfish-app-kafzn.ondigitalocean.app/api/v1/secured/get-exness/${encodeURI(currentEmail)}`,
+      url: `${prod}/api/v1/secured/get-exness/${encodeURI(currentEmail)}`,
       headers: {
         'Authorization': `Bearer ${currentAccessToken}`
       }
@@ -107,7 +110,26 @@ export default function ExnessPage() {
         setListExness(response.data);
       })
       .catch((error) => {
-        console.log(error);
+        if (error.response.status === 403) {
+          Swal.fire({
+            title: "An error occured",
+            icon: "error",
+            timer: 3000,
+            position: 'center',
+            showConfirmButton: false
+          });
+        } else {
+          Swal.fire({
+            title: "Session is ended, please login again !",
+            icon: "error",
+            timer: 3000,
+            position: 'center',
+            showConfirmButton: false
+          }).then(() => {
+            localStorage.clear();
+            navigate('/login', { replace: true });
+          });
+        }
       });
   }, []);
 

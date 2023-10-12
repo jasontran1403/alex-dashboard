@@ -6,6 +6,7 @@ import { alpha } from '@mui/material/styles';
 import { Box, Divider, Typography, Stack, MenuItem, Avatar, IconButton, Popover } from '@mui/material';
 // mocks_
 import Swal from 'sweetalert2';
+import { prod, dev } from "../../../utils/env";
 
 import ModalChangePassword from '../../../components/changePassword';
 
@@ -55,7 +56,7 @@ export default function AccountPopover() {
     const config = {
       method: 'post',
       maxBodyLength: Infinity,
-      url: 'https://jellyfish-app-kafzn.ondigitalocean.app/api/v1/auth/logout',
+      url: `${prod}/api/v1/auth/logout`,
       headers: {
         'Content-Type': 'application/json'
       },
@@ -79,7 +80,15 @@ export default function AccountPopover() {
         }
       })
       .catch((error) => {
-        console.log(error);
+        if (error.response.status === 403) {
+          Swal.fire({
+            title: "An error occured",
+            icon: "error",
+            timer: 3000,
+            position: 'center',
+            showConfirmButton: false
+          });
+        }
       });
 
 
@@ -138,12 +147,12 @@ export default function AccountPopover() {
 
         <Stack sx={{ p: 1 }}>
           {MENU_OPTIONS.map((option) => (
-            <MenuItem key={option.label} onClick={() => {handleClose(option.label)}}>
+            <MenuItem key={option.label} onClick={() => { handleClose(option.label) }}>
               {option.label}
             </MenuItem>
           ))}
         </Stack>
-        
+
 
         <Divider sx={{ borderStyle: 'dashed' }} />
 

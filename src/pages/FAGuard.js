@@ -1,12 +1,14 @@
 import { Helmet } from 'react-helmet-async';
 import axios from 'axios';
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import { styled } from '@mui/material/styles';
 import { Container, Stack, TextField } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 import Swal from 'sweetalert2';
 import Iconify from '../components/iconify';
+import { prod, dev } from "../utils/env";
 
 const style = {
   position: 'absolute',
@@ -35,6 +37,7 @@ const StyledProductImg = styled('img')({
 });
 
 export default function FAGuard() {
+  const navigate = useNavigate();
   const [faCode, setFaCode] = useState("");
   const [isInstalled, setIsInstalled] = useState(false);
   const [installQR, setInstallQR] = useState("");
@@ -46,7 +49,7 @@ export default function FAGuard() {
     const config = {
       method: 'get',
       maxBodyLength: Infinity,
-      url: `https://jellyfish-app-kafzn.ondigitalocean.app/api/v1/secured/showQR/${currentEmail}`,
+      url: `${prod}/api/v1/secured/showQR/${currentEmail}`,
       headers: {
         'Authorization': `Bearer ${currentAccessToken}`
       }
@@ -62,7 +65,26 @@ export default function FAGuard() {
         setInstallQR(response.data[1]);
       })
       .catch((error) => {
-        console.log(error);
+        if (error.response.status === 403) {
+          Swal.fire({
+            title: "An error occured",
+            icon: "error",
+            timer: 3000,
+            position: 'center',
+            showConfirmButton: false
+          });
+        } else {
+          Swal.fire({
+            title: "Session is ended, please login again !",
+            icon: "error",
+            timer: 3000,
+            position: 'center',
+            showConfirmButton: false
+          }).then(() => {
+            localStorage.clear();
+            navigate('/login', { replace: true });
+          });
+        }
       });
   };
 
@@ -92,7 +114,7 @@ export default function FAGuard() {
     const config = {
       method: 'post',
       maxBodyLength: Infinity,
-      url: 'https://jellyfish-app-kafzn.ondigitalocean.app/api/v1/secured/enable',
+      url: `${prod}/api/v1/secured/enable`,
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${currentAccessToken}`
@@ -123,7 +145,26 @@ export default function FAGuard() {
         }
       })
       .catch((error) => {
-        console.log(error);
+        if (error.response.status === 403) {
+          Swal.fire({
+            title: "An error occured",
+            icon: "error",
+            timer: 3000,
+            position: 'center',
+            showConfirmButton: false
+          });
+        } else {
+          Swal.fire({
+            title: "Session is ended, please login again !",
+            icon: "error",
+            timer: 3000,
+            position: 'center',
+            showConfirmButton: false
+          }).then(() => {
+            localStorage.clear();
+            navigate('/login', { replace: true });
+          });
+        }
       });
 
   };
@@ -140,7 +181,7 @@ export default function FAGuard() {
     const config = {
       method: 'post',
       maxBodyLength: Infinity,
-      url: 'https://jellyfish-app-kafzn.ondigitalocean.app/api/v1/secured/disable',
+      url: `${prod}/api/v1/secured/disable`,
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${currentAccessToken}`
@@ -172,7 +213,26 @@ export default function FAGuard() {
         }
       })
       .catch((error) => {
-        console.log(error);
+        if (error.response.status === 403) {
+          Swal.fire({
+            title: "An error occured",
+            icon: "error",
+            timer: 3000,
+            position: 'center',
+            showConfirmButton: false
+          });
+        } else {
+          Swal.fire({
+            title: "Session is ended, please login again !",
+            icon: "error",
+            timer: 3000,
+            position: 'center',
+            showConfirmButton: false
+          }).then(() => {
+            localStorage.clear();
+            navigate('/login', { replace: true });
+          });
+        }
       });
   };
 

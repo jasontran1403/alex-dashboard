@@ -7,6 +7,7 @@ import { LoadingButton } from '@mui/lab';
 // components
 import Swal from 'sweetalert2';
 import Iconify from '../../../components/iconify';
+import { prod, dev } from "../../../utils/env";
 
 // ----------------------------------------------------------------------
 
@@ -49,7 +50,7 @@ export default function LoginForm() {
 
     const config = {
       method: 'post',
-      url: 'https://jellyfish-app-kafzn.ondigitalocean.app/api/v1/auth/authenticate',
+      url: `${prod}/api/v1/auth/authenticate`,
       headers: {
         'Content-Type': 'application/json'
       },

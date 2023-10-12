@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { useState } from "react";
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
@@ -9,6 +10,7 @@ import Swal from 'sweetalert2';
 import { styled } from '@mui/material/styles';
 import Iconify from "../iconify";
 import Label from '../label';
+import { prod, dev } from "../../utils/env";
 
 const style = {
     position: 'absolute',
@@ -23,6 +25,7 @@ const style = {
 };
 
 export default function ModalChangePassword({ isOpen, onClose }) {
+    const navigate = useNavigate();
     const [newPassword, setNewPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [faCode, setFaCode] = useState("");
@@ -59,7 +62,7 @@ export default function ModalChangePassword({ isOpen, onClose }) {
             const config = {
                 method: 'post',
                 maxBodyLength: Infinity,
-                url: 'https://jellyfish-app-kafzn.ondigitalocean.app/api/v1/secured/change-password',
+                url: `${prod}/api/v1/secured/change-password`,
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${currentAccessToken}`
@@ -90,7 +93,26 @@ export default function ModalChangePassword({ isOpen, onClose }) {
                     }
                 })
                 .catch((error) => {
-                    console.log(error);
+                    if (error.response.status === 403) {
+                        Swal.fire({
+                          title: "An error occured",
+                          icon: "error",
+                          timer: 3000,
+                          position: 'center',
+                          showConfirmButton: false
+                      });
+                      } else {
+                        Swal.fire({
+                          title: "Session is ended, please login again !",
+                          icon: "error",
+                          timer: 3000,
+                          position: 'center',
+                          showConfirmButton: false
+                      }).then(() => {
+                        localStorage.clear();
+                          navigate('/login', { replace: true });
+                      });
+                      }
                 });
 
         }

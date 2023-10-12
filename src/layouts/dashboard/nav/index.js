@@ -1,11 +1,12 @@
 import PropTypes from 'prop-types';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 // @mui
 import { styled, alpha } from '@mui/material/styles';
 import { Box, Link, Button, Drawer, Typography, Avatar, Stack } from '@mui/material';
 // mock
+import Swal from 'sweetalert2';
 import account from '../../../_mock/account';
 // hooks
 import useResponsive from '../../../hooks/useResponsive';
@@ -13,6 +14,7 @@ import useResponsive from '../../../hooks/useResponsive';
 import Logo from '../../../components/logo';
 import Scrollbar from '../../../components/scrollbar';
 import NavSection from '../../../components/nav-section';
+import { prod, dev } from "../../../utils/env";
 //
 import navConfig from './config';
 
@@ -36,11 +38,12 @@ Nav.propTypes = {
 };
 
 export default function Nav({ openNav, onCloseNav }) {
+  const navigate = useNavigate();
   const { pathname } = useLocation();
   const [email] = useState(localStorage.getItem("email").length > 12 ? `${localStorage.getItem("email").substring(0, 12)}...` : localStorage.getItem("email"));
   const [currentEmail] = useState(localStorage.getItem("email") ? localStorage.getItem("email") : "");
   const [currentAccessToken] = useState(localStorage.getItem("access_token") ? localStorage.getItem("access_token") : "");
-  const [refCode, setRefCode] = useState(""); 
+  const [refCode, setRefCode] = useState("");
   const isDesktop = useResponsive('up', 'lg');
 
   useEffect(() => {
@@ -51,7 +54,7 @@ export default function Nav({ openNav, onCloseNav }) {
     const config = {
       method: 'post',
       maxBodyLength: Infinity,
-      url: 'https://jellyfish-app-kafzn.ondigitalocean.app/api/v1/secured/get-info',
+      url: `${prod}/api/v1/secured/get-info`,
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${currentAccessToken}`
@@ -64,7 +67,26 @@ export default function Nav({ openNav, onCloseNav }) {
         setRefCode(response.data.refCode);
       })
       .catch((error) => {
-        console.log(error);
+        if (error.response.status === 403) {
+          Swal.fire({
+            title: "An error occured",
+            icon: "error",
+            timer: 3000,
+            position: 'center',
+            showConfirmButton: false
+          });
+        } else {
+          Swal.fire({
+            title: "Session is ended, please login again !",
+            icon: "error",
+            timer: 3000,
+            position: 'center',
+            showConfirmButton: false
+          }).then(() => {
+            localStorage.clear();
+            navigate('/login', { replace: true });
+          });
+        }
       });
 
   }, []);

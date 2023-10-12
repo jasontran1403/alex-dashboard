@@ -3,9 +3,12 @@ import { Helmet } from 'react-helmet-async';
 import { filter } from 'lodash';
 import { sentenceCase } from 'change-case';
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 // @mui
-import { Card, Table, Stack, Paper, Avatar, Button, Popover, Checkbox, TableRow, MenuItem, TableBody, TableCell, Container, Typography, IconButton, TableContainer, TablePagination,
+import {
+  Card, Table, Stack, Paper, Avatar, Button, Popover, Checkbox, TableRow, MenuItem, TableBody, TableCell, Container, Typography, IconButton, TableContainer, TablePagination,
 } from '@mui/material';
+import Swal from 'sweetalert2';
 import { format } from 'date-fns';
 import { fCurrency } from '../utils/formatNumber';
 // components
@@ -14,6 +17,8 @@ import Iconify from '../components/iconify';
 import Scrollbar from '../components/scrollbar';
 // sections
 import { TransactionListHead, TransactionListToolbar } from '../sections/@dashboard/transactions';
+import { prod, dev } from "../utils/env";
+
 // mock
 // ----------------------------------------------------------------------
 
@@ -57,6 +62,7 @@ function applySortFilter(array, comparator, query) {
 }
 
 export default function TransactionPage() {
+  const navigate = useNavigate();
   const [open, setOpen] = useState(null);
 
   const [page, setPage] = useState(0);
@@ -78,7 +84,7 @@ export default function TransactionPage() {
     const config = {
       method: 'get',
       maxBodyLength: Infinity,
-      url: `https://jellyfish-app-kafzn.ondigitalocean.app/api/v1/secured/get-transaction/email=${currentEmail}`,
+      url: `${prod}/api/v1/secured/get-transaction/email=${currentEmail}`,
       headers: {
         'Authorization': `Bearer ${currentAccessToken}`
       }
@@ -89,7 +95,26 @@ export default function TransactionPage() {
         setListTransactions(response.data);
       })
       .catch((error) => {
-        console.log(error);
+        if (error.response.status === 403) {
+          Swal.fire({
+            title: "An error occured",
+            icon: "error",
+            timer: 3000,
+            position: 'center',
+            showConfirmButton: false
+          });
+        } else {
+          Swal.fire({
+            title: "Session is ended, please login again !",
+            icon: "error",
+            timer: 3000,
+            position: 'center',
+            showConfirmButton: false
+          }).then(() => {
+            localStorage.clear();
+            navigate('/login', { replace: true });
+          });
+        }
       });
 
   }, []);

@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { Helmet } from 'react-helmet-async';
 import { faker } from '@faker-js/faker';
-
+import Swal from 'sweetalert2';
 import { alpha, useTheme } from '@mui/material/styles';
 // @mui
 import { Grid, Container, Typography, MenuItem, Stack, IconButton, Popover, Input, Card, CardHeader, Box } from '@mui/material';
@@ -13,6 +14,7 @@ import { fCurrency, fNumber, fShortenNumber } from '../utils/formatNumber';
 import Iconify from '../components/iconify';
 // components
 import { useChart } from '../components/chart';
+import { prod, dev } from "../utils/env";
 
 // sections
 import {
@@ -23,6 +25,7 @@ import {
   AppWebsiteVisits,
   AppTrafficBySite,
   AppWidgetSummary,
+  AppWidgetSummaryUSD,
   AppCurrentSubject,
   AppConversionRates,
 } from '../sections/@dashboard/app';
@@ -72,7 +75,9 @@ const convertToDate = (timeunix) => {
   return `${day.toString().padStart(2, '0')}/${month.toString().padStart(2, '0')}`;
 };
 export default function DashboardAppPage() {
+  const navigate = useNavigate();
   const theme = useTheme();
+  const [balances, setBalances] = useState([]);
   const [balance, setBalance] = useState(0.00);
   const [commission, setCommission] = useState(0.00);
   const [isLoading, setIsLoading] = useState(false);
@@ -89,8 +94,9 @@ export default function DashboardAppPage() {
   const [refCode, setRefCode] = useState("");
   const [listTransaction2, setListTransaction2] = useState([]);
   const [prevBalance, setPrevBalance] = useState([]);
-  const [prevProfit, setPrevProfit] = useState([]);
-  const [prevTransaction, setPrevTransaction] = useState([]);
+  const [prevProfit, setPrevProfit] = useState(0.0);
+  const [prevDeposit, setPrevDeposit] = useState(0.0);
+  const [prevWithdraw, setPrevWithdraw] = useState(0.0);
 
   const [open, setOpen] = useState(null);
 
@@ -117,14 +123,29 @@ export default function DashboardAppPage() {
       handleClose();
       return;
     }
-    setCurrentMonth(month);
-    fetchData(currentExness, month);
+    if (currentExness === "All") {
+      setCurrentMonth(month);
+      fetchData(currentEmail, month);
+    } else {
+      setCurrentMonth(month);
+      fetchData(currentExness, month);
+    }
+
+
     handleClose();
   }
 
   const handleChangeExness = (exness) => {
-    fetchData(exness, currentMonth);
-    setCurrentExness(exness);
+    if (exness === "All") {
+      setCurrentExness(exness);
+      fetchData(currentEmail, currentMonth);
+      fetchPrev(currentEmail);
+    } else {
+      setCurrentExness(exness);
+      fetchData(exness, currentMonth);
+      fetchPrev(exness);
+    }
+
     handleClose2();
   }
 
@@ -136,7 +157,7 @@ export default function DashboardAppPage() {
     const config = {
       method: 'get',
       maxBodyLength: Infinity,
-      url: `https://jellyfish-app-kafzn.ondigitalocean.app/api/v1/secured/get-exness/${encodeURI(currentEmail)}`,
+      url: `${prod}/api/v1/secured/get-exness/${encodeURI(currentEmail)}`,
       headers: {
         'Authorization': `Bearer ${currentAccessToken}`
       }
@@ -145,14 +166,34 @@ export default function DashboardAppPage() {
     axios(config)
       .then((response) => {
         if (response.data.length > 0) {
-          setListExness(response.data);
-          setCurrentExness(response.data[0]);
-          fetchData(response.data[0], listMenu[0]);
+          const updatedList = ["All"].concat(response.data);
+          setListExness(updatedList);
+
+          setCurrentExness("All");
+          fetchData(currentEmail, listMenu[0]);
         }
       })
       .catch((error) => {
-        console.log(error);
-        console.log("Dev log");
+        if (error.response.status === 403) {
+          Swal.fire({
+            title: "An error occured",
+            icon: "error",
+            timer: 3000,
+            position: 'center',
+            showConfirmButton: false
+          });
+        } else {
+          Swal.fire({
+            title: "Session is ended, please login again !",
+            icon: "error",
+            timer: 3000,
+            position: 'center',
+            showConfirmButton: false
+          }).then(() => {
+            localStorage.clear();
+            navigate('/login', { replace: true });
+          });
+        }
       });
 
     const timeout = setTimeout(() => {
@@ -168,7 +209,7 @@ export default function DashboardAppPage() {
     const config = {
       method: 'get',
       maxBodyLength: Infinity,
-      url: `https://jellyfish-app-kafzn.ondigitalocean.app/api/v1/secured/get-transaction/email=${currentEmail}`,
+      url: `${prod}/api/v1/secured/get-transaction/email=${currentEmail}`,
       headers: {
         'Authorization': `Bearer ${currentAccessToken}`
       }
@@ -180,16 +221,39 @@ export default function DashboardAppPage() {
         setListTransaction(firstFiveItems);
       })
       .catch((error) => {
-        console.log(error);
+        if (error.response.status === 403) {
+          Swal.fire({
+            title: "An error occured",
+            icon: "error",
+            timer: 3000,
+            position: 'center',
+            showConfirmButton: false
+          });
+        } else {
+          Swal.fire({
+            title: "Session is ended, please login again !",
+            icon: "error",
+            timer: 3000,
+            position: 'center',
+            showConfirmButton: false
+          }).then(() => {
+            localStorage.clear();
+            navigate('/login', { replace: true });
+          });
+        }
       });
 
   }, []);
 
   useEffect(() => {
+    fetchPrev(currentEmail);
+  }, []);
+
+  const fetchPrev = (exness) => {
     const config = {
       method: 'get',
       maxBodyLength: Infinity,
-      url: `https://jellyfish-app-kafzn.ondigitalocean.app/api/v1/secured/get-prev-data/${currentEmail}`,
+      url: `${prod}/api/v1/secured/get-prev-data/${exness}`,
       headers: {
         'Authorization': `Bearer ${currentAccessToken}`
       }
@@ -197,16 +261,36 @@ export default function DashboardAppPage() {
 
     axios.request(config)
       .then((response) => {
-        // setPrevData(response.data);
+        console.log(response.data);
         setPrevBalance(response.data.balance);
-        setPrevProfit(response.data.commission);
-        setPrevTransaction(response.data.transaction);
+        setPrevProfit(response.data.profit);
+        setPrevDeposit(response.data.deposit);
+        setPrevWithdraw(response.data.withdraw);
       })
       .catch((error) => {
-        console.log(error);
+        if (error.response.status === 403) {
+          Swal.fire({
+            title: "An error occured",
+            icon: "error",
+            timer: 3000,
+            position: 'center',
+            showConfirmButton: false
+          });
+        } else {
+          Swal.fire({
+            title: "Session is ended, please login again !",
+            icon: "error",
+            timer: 3000,
+            position: 'center',
+            showConfirmButton: false
+          }).then(() => {
+            localStorage.clear();
+            navigate('/login', { replace: true });
+          });
+        }
       });
 
-  }, []);
+  }
 
   const fetchData = (exness, time) => {
     const [month, year] = time.split('/');
@@ -222,13 +306,12 @@ export default function DashboardAppPage() {
     const startUnix = startDate.getTime() / 1000;
     const endUnix = endDate.getTime() / 1000;
 
-    const encodedExness = encodeURIComponent(exness);
     const encodedFrom = encodeURIComponent(startUnix);
     const encodedTo = encodeURIComponent(endUnix);
     const config = {
       method: 'get',
       maxBodyLength: Infinity,
-      url: `https://jellyfish-app-kafzn.ondigitalocean.app/api/v1/secured/get-info-by-exness/exness=${encodedExness}&from=${encodedFrom}&to=${encodedTo}`,
+      url: `${prod}/api/v1/secured/get-info-by-exness/exness=${exness}&from=${encodedFrom}&to=${encodedTo}`,
       headers: {
         'Authorization': `Bearer ${currentAccessToken}`
       }
@@ -239,34 +322,140 @@ export default function DashboardAppPage() {
       .then((response) => {
         setBalance(response.data.profit);
         setCommission(response.data.commission);
-        setLabel(response.data.profits.map((profit) => convertToDate(profit.time)));
-        setProfits(response.data.profits.map((profit) => profit.amount));
+
+        const dataProfits = response.data.profits.map((profit) => profit);
+
+        // Tạo một đối tượng để lưu trữ tổng số lượng dựa trên thời gian
+        const timeMap = {};
+
+        // Lặp qua mảng dữ liệu và tính tổng số lượng dựa trên thời gian
+        dataProfits.forEach(item => {
+          const { time, amount } = item;
+          if (timeMap[time] === undefined) {
+            timeMap[time] = 0;
+          }
+          timeMap[time] += amount;
+        });
+
+
+        // Chuyển đổi đối tượng thành một mảng kết quả
+        const result = Object.keys(timeMap).map(time => ({
+          time: parseInt(time, 10),
+          amount: timeMap[time]
+        }));
+
+        setLabel(result.map((profit) => convertToDate(profit.time)));
+        setProfits(result.map((profit) => profit.amount));
+
+        const dataBalances = response.data.balances.map((balance) => balance);
+
+        // Tạo một đối tượng để lưu trữ tổng số lượng dựa trên thời gian
+        const timeMapBalances = {};
+
+        // Lặp qua mảng dữ liệu và tính tổng số lượng dựa trên thời gian
+        dataBalances.forEach(item => {
+          const { time, amount } = item;
+          if (timeMapBalances[time] === undefined) {
+            timeMapBalances[time] = 0;
+          }
+          timeMapBalances[time] += amount;
+        });
+
+
+        // Chuyển đổi đối tượng thành một mảng kết quả
+        const resultBalances = Object.keys(timeMapBalances).map(time => ({
+          time: parseInt(time, 10),
+          amount: timeMapBalances[time]
+        }));
+        setBalances(resultBalances.map((profit) => profit.amount));
+
       })
       .catch((error) => {
-        console.log(error);
+        if (error.response.status === 403) {
+          Swal.fire({
+            title: "An error occured",
+            icon: "error",
+            timer: 3000,
+            position: 'center',
+            showConfirmButton: false
+          });
+        } else {
+          Swal.fire({
+            title: "Session is ended, please login again !",
+            icon: "error",
+            timer: 3000,
+            position: 'center',
+            showConfirmButton: false
+          }).then(() => {
+            localStorage.clear();
+            navigate('/login', { replace: true });
+          });
+        }
       });
   }
+
   const chartData = [
     {
       name: 'Profit',
       type: 'line',
-      fill: 'solid',
       data: profits,
+      yAxis: 0,
+    },
+    {
+      name: 'Balance',
+      type: 'line',
+      data: balances,
+      yAxis: 1,
+
     },
   ];
 
   const chartOptions = useChart({
     plotOptions: { bar: { columnWidth: '16%' } },
-    fill: { type: chartData.map((i) => i.fill) },
+    fill: {
+      type: 'solid',
+    },
+    colors: ["#27cf5c", "#1d7fc4"],
     labels: label,
     xaxis: { type: 'text' },
+    yaxis: [
+      // Cấu hình cho trục y-axis bên trái
+      {
+        title: {
+          text: 'Profits',
+        },
+        labels: {
+          "formatter": function (value) {
+            return fShortenNumber(value); // Định dạng số nguyên
+          },
+        },
+      },
+      // Cấu hình cho trục y-axis bên phải
+      {
+        opposite: true, // Điều này đảm bảo rằng trục y-axis nằm ở phía bên phải
+        title: {
+          text: 'Balances',
+        },
+        tickAmount: 5,
+        max: balance * 2,
+        labels: {
+          "formatter": function (value) {
+            if (typeof value === "undefined" || value === 5e-324) {
+              return 0; // Hoặc giá trị mặc định khác tùy ý
+            }
+            return fShortenNumber(value);
+          },
+        },
+      },
+    ],
+
     tooltip: {
       shared: true,
       intersect: false,
       y: {
         formatter: (y) => {
           if (typeof y !== 'undefined') {
-            return `$${y.toFixed(2)}`;
+            return y === 0 ? '0 USC' : `${fShortenNumber(y)} USC`;
           }
           return y;
         },
@@ -287,28 +476,70 @@ export default function DashboardAppPage() {
         {/* <Typography variant="h4" sx={{ mb: 5 }}>
           Hi, Welcome back
         </Typography> */}
+        <Grid item xs={12} sm={12} md={12} style={{ cursor: "pointer" }} >
+          <IconButton
+            onClick={handleOpen2}
+            sx={{
+              padding: 0,
+              width: 44,
+              height: 44,
+              ...(open2 && {
+                bgcolor: (theme) => alpha(theme.palette.primary.main, theme.palette.action.focusOpacity),
+              }),
+            }}
+          >
+            <Input type="text" value={currentExness === "All" ? currentExness : `Exness ID ${currentExness}`} style={{ minWidth: "200px", marginLeft: "120px", paddingLeft: "20px", cursor: "pointer!important", }} />
+          </IconButton>
+          <Popover
+            open={Boolean(open2)}
+            anchorEl={open2}
+            onClose={handleClose2}
+            anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
+            transformOrigin={{ vertical: 'top', horizontal: 'left' }}
+            PaperProps={{
+              sx: {
+                p: 1,
+                width: 140,
+                '& .MuiMenuItem-root': {
+                  px: 1,
+                  typography: 'body2',
+                  borderRadius: 0.75,
+                },
+              },
+            }}
+          >
+            {listExness.map((item, index) => {
+              return <MenuItem key={index} onClick={() => { handleChangeExness(item) }}>
+                <Iconify sx={{ mr: 2 }} />
+                {item}
+              </MenuItem>
+            })}
+          </Popover>
+        </Grid>
 
         <Grid container spacing={3}>
-          <Grid item xs={12} sm={6} md={6}>
+          <Grid item xs={12} sm={4} md={4}>
             <AppWidgetSummary sx={{ mb: 2 }} title="Balance" total={balance} icon={'noto:money-with-wings'} />
-            <AppWidgetSummary title="Total Commissions" total={commission} color="info" icon={'flat-color-icons:bullish'} />
+            <AppWidgetSummaryUSD sx={{ mb: 2 }} title="Total Commissions" total={commission} color="info" icon={'flat-color-icons:bullish'} />
+          </Grid>
+          <Grid item xs={12} sm={4} md={4}>
+            <AppWidgetSummary sx={{ mb: 2 }} title="Total Deposit" total={prevDeposit} icon={'vaadin:money-deposit'} />
+            <AppWidgetSummary sx={{ mb: 2 }} title="Total Withdraw" total={prevWithdraw} icon={'vaadin:money-withdraw'} />
           </Grid>
 
-          {/* <Grid item xs={12} sm={6} md={4}>
-            
-          </Grid> */}
-
-          <Grid item xs={12} sm={6} md={6}>
+          <Grid item xs={12} sm={4} md={4}>
             <AppCurrentVisits
-              title="Assets yesterday"
+              title="Assets last month"
               change={balance - prevBalance}
               chartData={[
-                { label: 'Profit', value: prevProfit > 0 ? prevProfit : prevProfit === 0 ? 0 : Math.abs(prevProfit) },
-                { label: 'Withdraw/Deposit', value: prevTransaction > 0 ? prevTransaction : prevTransaction === 0 ? 0 : Math.abs(prevTransaction) },
+                { label: 'Profit', value: prevProfit },
+                { label: 'Deposit', value: prevDeposit > 0 ? prevDeposit : prevDeposit === 0 ? 0 : Math.abs(prevDeposit) },
+                { label: 'Withdraw', value: prevWithdraw > 0 ? prevWithdraw : prevWithdraw === 0 ? 0 : Math.abs(prevWithdraw) },
               ]}
               chartColors={[
                 prevProfit > 0 ? theme.palette.success.main : theme.palette.warning.main,
-                prevTransaction > 0 ? theme.palette.primary.main : theme.palette.error.main,
+                theme.palette.primary.main,
+                theme.palette.error.main,
               ]}
             />
           </Grid>
@@ -365,46 +596,7 @@ export default function DashboardAppPage() {
             </Popover>
           </Grid>
 
-          <Grid item xs={12} sm={12} md={12}>
-            <IconButton
-              onClick={handleOpen2}
-              sx={{
-                padding: 0,
-                width: 44,
-                height: 44,
-                ...(open2 && {
-                  bgcolor: (theme) => alpha(theme.palette.primary.main, theme.palette.action.focusOpacity),
-                }),
-              }}
-            >
-              <Input type="text" value={`Exness ID  ${currentExness}`} style={{ minWidth: "200px", marginLeft: "120px", paddingLeft: "20px" }} />
-            </IconButton>
-            <Popover
-              open={Boolean(open2)}
-              anchorEl={open2}
-              onClose={handleClose2}
-              anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
-              transformOrigin={{ vertical: 'top', horizontal: 'left' }}
-              PaperProps={{
-                sx: {
-                  p: 1,
-                  width: 140,
-                  '& .MuiMenuItem-root': {
-                    px: 1,
-                    typography: 'body2',
-                    borderRadius: 0.75,
-                  },
-                },
-              }}
-            >
-              {listExness.map((item, index) => {
-                return <MenuItem key={index} onClick={() => { handleChangeExness(item) }}>
-                  <Iconify sx={{ mr: 2 }} />
-                  {item}
-                </MenuItem>
-              })}
-            </Popover>
-          </Grid>
+
 
           <Grid item xs={12} md={12} lg={12}>
 

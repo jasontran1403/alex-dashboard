@@ -1,5 +1,8 @@
 import { faker } from '@faker-js/faker';
 import axios from 'axios';
+import Swal from 'sweetalert2';
+
+import { prod, dev } from "../utils/env";
 
 const products = [];
 const email = localStorage.getItem("email");
@@ -9,7 +12,7 @@ if (email && accessToken) {
   const config = {
     method: 'get',
     maxBodyLength: Infinity,
-    url: `https://jellyfish-app-kafzn.ondigitalocean.app/api/v1/secured/getNetwork/${email}`,
+    url: `${prod}/api/v1/secured/getNetwork/${email}`,
     headers: {
       'Authorization': `Bearer ${accessToken}`
     }
@@ -22,7 +25,26 @@ if (email && accessToken) {
       })
     })
     .catch((error) => {
-      console.log(error);
+      if (error.response.status === 403) {
+        Swal.fire({
+          title: "An error occured",
+          icon: "error",
+          timer: 3000,
+          position: 'center',
+          showConfirmButton: false
+        });
+      } else {
+        Swal.fire({
+          title: "Session is ended, please login again !",
+          icon: "error",
+          timer: 3000,
+          position: 'center',
+          showConfirmButton: false
+        }).then(() => {
+          localStorage.clear();
+          window.location.href = '/login';
+        });
+      }
     });
 }
 

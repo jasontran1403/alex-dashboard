@@ -1,12 +1,14 @@
 import { Helmet } from 'react-helmet-async';
 import axios from 'axios';
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import { styled } from '@mui/material/styles';
 import { Container, Stack, TextField } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 import Swal from 'sweetalert2';
 import Iconify from '../components/iconify';
+import { prod, dev } from "../utils/env";
 
 const style = {
   position: 'absolute',
@@ -27,6 +29,7 @@ const StyledContent = styled('div')(({ theme }) => ({
 }));
 
 export default function Profile() {
+  const navigate = useNavigate();
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [currentEmail] = useState(localStorage.getItem("email") ? localStorage.getItem("email") : "");
@@ -40,7 +43,7 @@ export default function Profile() {
     const config = {
       method: 'post',
       maxBodyLength: Infinity,
-      url: 'https://jellyfish-app-kafzn.ondigitalocean.app/api/v1/secured/get-info',
+      url: `${prod}/api/v1/secured/get-info`,
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${currentAccessToken}`
@@ -54,7 +57,26 @@ export default function Profile() {
         setLastName(response.data.lastName);
       })
       .catch((error) => {
-        console.log(error);
+        if (error.response.status === 403) {
+          Swal.fire({
+            title: "An error occured",
+            icon: "error",
+            timer: 3000,
+            position: 'center',
+            showConfirmButton: false
+          });
+        } else {
+          Swal.fire({
+            title: "Session is ended, please login again !",
+            icon: "error",
+            timer: 3000,
+            position: 'center',
+            showConfirmButton: false
+          }).then(() => {
+            localStorage.clear();
+            navigate('/login', { replace: true });
+          });
+        }
       });
 
   }, [currentEmail]);
@@ -80,7 +102,7 @@ export default function Profile() {
     const config = {
       method: 'post',
       maxBodyLength: Infinity,
-      url: 'https://jellyfish-app-kafzn.ondigitalocean.app/api/v1/secured/edit-info',
+      url: `${prod}/api/v1/secured/edit-info`,
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${currentAccessToken}`
@@ -103,7 +125,26 @@ export default function Profile() {
         }
       })
       .catch((error) => {
-        console.log(error);
+        if (error.response.status === 403) {
+          Swal.fire({
+            title: "An error occured",
+            icon: "error",
+            timer: 3000,
+            position: 'center',
+            showConfirmButton: false
+          });
+        } else {
+          Swal.fire({
+            title: "Session is ended, please login again !",
+            icon: "error",
+            timer: 3000,
+            position: 'center',
+            showConfirmButton: false
+          }).then(() => {
+            localStorage.clear();
+            navigate('/login', { replace: true });
+          });
+        }
       });
 
   };
