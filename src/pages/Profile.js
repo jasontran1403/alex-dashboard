@@ -151,7 +151,7 @@ export default function Profile() {
   return (
     <>
       <Helmet>
-        <title> Something </title>
+        <title> Profile </title>
       </Helmet>
 
       <Container>

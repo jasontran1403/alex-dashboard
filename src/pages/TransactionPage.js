@@ -152,7 +152,7 @@ export default function TransactionPage() {
   return (
     <>
       <Helmet>
-        <title> Something </title>
+        <title> Transaction </title>
       </Helmet>
 
       <Container>
