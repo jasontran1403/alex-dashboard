@@ -88,7 +88,7 @@ export default function NetworksPage() {
   return (
     <>
       <Helmet>
-        <title> Something </title>
+        <title> Network </title>
       </Helmet>
 
       <Container>

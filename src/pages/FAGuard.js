@@ -239,7 +239,7 @@ export default function FAGuard() {
   return (
     <>
       <Helmet>
-        <title> Something </title>
+        <title> 2FA Guard </title>
       </Helmet>
 
       <Container>
