@@ -476,7 +476,7 @@ export default function DashboardAppPage() {
         {/* <Typography variant="h4" sx={{ mb: 5 }}>
           Hi, Welcome back
         </Typography> */}
-        <Grid item xs={12} sm={12} md={12} style={{ cursor: "pointer" }} >
+        <Grid item xs={12} sm={12} md={12} >
           <IconButton
             onClick={handleOpen2}
             sx={{
