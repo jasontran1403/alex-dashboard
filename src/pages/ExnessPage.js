@@ -213,7 +213,7 @@ export default function ExnessPage() {
   return (
     <>
       <Helmet>
-        <title> Something </title>
+        <title> Exness </title>
       </Helmet>
 
       <Container>

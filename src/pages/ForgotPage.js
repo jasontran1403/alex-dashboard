@@ -46,7 +46,7 @@ export default function ForgotPage() {
   return (
     <>
       <Helmet>
-        <title> Something </title>
+        <title> Forgot Pass </title>
       </Helmet>
 
       <StyledRoot>

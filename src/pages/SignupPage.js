@@ -46,7 +46,7 @@ export default function SignupPage() {
   return (
     <>
       <Helmet>
-        <title> Something </title>
+        <title> Sign Up </title>
       </Helmet>
 
       <StyledRoot>

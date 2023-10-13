@@ -469,7 +469,7 @@ export default function DashboardAppPage() {
   return (
     <>
       <Helmet>
-        <title> Something </title>
+        <title> Login </title>
       </Helmet>
 
       <Container maxWidth="xl">
