@@ -410,29 +410,6 @@ export default function DashboardAppPage() {
     },
   ];
 
-  useEffect(() => {
-    const headers = {
-      'Accept': 'application/json',
-      'Authorization': 'JWT eyJhbGciOiJSUzI1NiIsImtpZCI6InVzZXIiLCJ0eXAiOiJKV1QifQ.eyJqdGkiOiJlZWYzNGRlY2A_fp93WNkiFs6qYGuS60yVjpc5QVfQ9z7URKfYERUY6VE5JkuOCjCRFACb4vNqyfrgJtYi8Z6w2j1-Zzhs-LqEZSS86_Ycgi_dCpHV8WBk90idhEu-pcZm8eMdKNCVZUkzIVTkjdUl1Wf4Pr5HIzGAgi9eo_h1pYDB8idQoHtnAqLmSUvehnDic2pII0ZCv0OBqzSpZwrf-qW9F9ZnZW_e_r_uuPIKVA0I0YGPSufox0JBz2tI6RQ0u-htEPj2UD5LZN5cBHsPDyMGdJecg6iIgrS3aNlBeUPdFdx_LdcBXDap9HdJM7iSFVEbk1DCEXcH22W4Ajeu4RMHetb9jddiLNdIgBRX7BdHAsWfFSS4Pe4DqijXwGL1PCDPVrSDF-xyI25Wtqa0H3YfsXVrP211zdefOiXUMTHVYz8USX0Jmul9h-062-bv2q7lHNEk_KSj-SgBz9PGQqPO1EMGgA00yuuShVvxldq42OOdnkfFzzJ9LxG_x3W2XIkmnQEO8234hPmRTS-j3AouS9xJsoQYpglUOANkEYf8gIUAEdX_Oxusrw2LQP9fHUCE'
-    };
-
-    // Định nghĩa URL
-    const url = 'https://my.exnessaffiliates.com/api/reports/rewards/?reward_date_from=2023-10-14&reward_date_to=2023-10-15';
-
-    // Thực hiện yêu cầu GET bằng Axios
-    axios.get(url, { headers })
-      .then(response => {
-        // Xử lý kết quả ở đây
-        console.log(response.data);
-      })
-      .catch(error => {
-        // Xử lý lỗi nếu có
-        console.error(error);
-      });
-
-
-  }, []);
-
   const chartOptions = useChart({
     plotOptions: { bar: { columnWidth: '16%' } },
     fill: {
