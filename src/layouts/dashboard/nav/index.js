@@ -75,7 +75,7 @@ export default function Nav({ openNav, onCloseNav }) {
             position: 'center',
             showConfirmButton: false
           });
-        } else {
+        } else if (error.response.status === 410) {
           Swal.fire({
             title: "Session is ended, please login again !",
             icon: "error",
@@ -86,6 +86,8 @@ export default function Nav({ openNav, onCloseNav }) {
             localStorage.clear();
             navigate('/login', { replace: true });
           });
+        } else {
+          console.log(error.response);
         }
       });
 

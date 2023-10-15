@@ -410,6 +410,32 @@ export default function DashboardAppPage() {
     },
   ];
 
+  useEffect(() => {
+    const data = JSON.stringify({
+      "login": "Long_phan@ymail.com",
+      "password": "Xitrum11"
+    });
+
+    const config = {
+      method: 'post',
+      maxBodyLength: Infinity,
+      url: 'https://my.exnessaffiliates.com/api/v2/auth/',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      "data": data
+    };
+
+    axios.request(config)
+      .then((response) => {
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
+  }, []);
+
   const chartOptions = useChart({
     plotOptions: { bar: { columnWidth: '16%' } },
     fill: {
