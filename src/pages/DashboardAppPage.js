@@ -411,28 +411,30 @@ export default function DashboardAppPage() {
   ];
 
   useEffect(() => {
-    const data = JSON.stringify({
-      "login": "Long_phan@ymail.com",
-      "password": "Xitrum11"
-    });
-
-    const config = {
-      method: 'post',
-      maxBodyLength: Infinity,
-      url: 'https://my.exnessaffiliates.com/api/v2/auth/',
+    fetch('https://my.exnessaffiliates.com/api/v2/auth/', {
+      method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': 'JWT eyJhbGciOiJSUzI1NiIsImtpZCI6InVzZXIiLCJ0eXAiOiJKV1QifQ.eyJqdGkiOiJhMTUyYjVhYjlkYWE4MjcyYjY5', // Cắt ngắn JWT để minh họa
       },
-      "data": data
-    };
-
-    axios.request(config)
-      .then((response) => {
-        console.log(response.data);
+      body: JSON.stringify({}),
+    })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
       })
-      .catch((error) => {
-        console.log(error);
+      .then(data => {
+        // Xử lý dữ liệu trả về từ API ở đây
+        console.log(data);
+      })
+      .catch(error => {
+        // Xử lý lỗi nếu có
+        console.error('There was a problem with the fetch operation:', error);
       });
+
 
   }, []);
 
