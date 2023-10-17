@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 // @mui
 import { alpha } from '@mui/material/styles';
@@ -29,8 +29,10 @@ const MENU_OPTIONS = [
 
 export default function AccountPopover() {
   const [email] = useState(localStorage.getItem("email"));
+  const [currentAccessToken] = useState(localStorage.getItem("access_token"));
   const [open, setOpen] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [image] = useState(localStorage.getItem("image") || '/assets/images/avatars/avatar_default.png');
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
@@ -112,7 +114,7 @@ export default function AccountPopover() {
           }),
         }}
       >
-        <Avatar src={"/assets/images/avatars/avatar_default.png"} alt="photoURL" />
+        <Avatar src={image} alt="photoURL" />
       </IconButton>
 
       <Popover
