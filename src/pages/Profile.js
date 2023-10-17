@@ -28,12 +28,65 @@ const StyledContent = styled('div')(({ theme }) => ({
   flexDirection: 'column',
 }));
 
+
+
 export default function Profile() {
   const navigate = useNavigate();
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [currentEmail] = useState(localStorage.getItem("email") ? localStorage.getItem("email") : "");
   const [currentAccessToken] = useState(localStorage.getItem("access_token") ? localStorage.getItem("access_token") : "");
+  const [refCode, setRefCode] = useState("");
+
+  
+  useEffect(() => {
+    const data = JSON.stringify({
+      "email": currentEmail
+    });
+
+    const config = {
+      method: 'post',
+      maxBodyLength: Infinity,
+      url: `${prod}/api/v1/secured/get-info`,
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${currentAccessToken}`
+      },
+      "data": data
+    };
+
+    axios.request(config)
+      .then((response) => {
+        setRefCode(response.data.refCode);
+      })
+      .catch((error) => {
+        if (error.response.status === 403) {
+          Swal.fire({
+            title: "An error occured",
+            icon: "error",
+            timer: 3000,
+            position: 'center',
+            showConfirmButton: false
+          });
+        } else if (error.response.status === 410) {
+          Swal.fire({
+            title: "Session is ended, please login again !",
+            icon: "error",
+            timer: 3000,
+            position: 'center',
+            showConfirmButton: false
+          }).then(() => {
+            localStorage.clear();
+            navigate('/login', { replace: true });
+          });
+        } else {
+          console.log(error.response);
+        }
+      });
+
+  }, []);
+
+
 
   useEffect(() => {
     const data = JSON.stringify({
@@ -172,7 +225,7 @@ export default function Profile() {
               <div className="actions">
                   <div className="follow-info">
                       <h2><a href="#"><span>Name</span><small > {firstName} </small></a></h2>
-                      <h2><a href="#"><span>Refcode</span><small>123456</small></a></h2>
+                      <h2><a href="#"><span>Refcode</span><small>{refCode}</small></a></h2>
                   </div>
                   <div className="follow-info">
                       <h2><a href="#"><span>Phone</span><small>Alex</small></a></h2>
