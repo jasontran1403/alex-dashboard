@@ -260,7 +260,6 @@ export default function DashboardAppPage() {
 
     axios.request(config)
       .then((response) => {
-        console.log(response.data);
         setPrevBalance(response.data.balance);
         setPrevProfit(response.data.profit);
         setPrevDeposit(response.data.deposit);
@@ -621,7 +620,7 @@ export default function DashboardAppPage() {
               </Box>
             </Card>
           </Grid>
-
+          <span className="test">asdasdlasd</span>
 
 
           {/* <Grid item xs={12} md={6} lg={8}>
