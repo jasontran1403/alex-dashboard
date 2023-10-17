@@ -283,8 +283,12 @@ export default function Profile() {
             <div className="card">
 
               <div className="banner">
-                <Button fullWidth component="label" color={"warning"}>
-                  <img className="profile-img" src={image || "assets/images/avatars/25.jpg"} alt="profile-img" />
+                <Button fullWidth component="label" >
+                <div className = "profile-img">
+                <img src={image || "assets/images/avatars/25.jpg"} alt="profile-img" />
+                </div>
+
+               
                   <VisuallyHiddenInput type="file" onChange={(e) => { handleFileSelect(e) }} />
                 </Button>
 
@@ -296,30 +300,23 @@ export default function Profile() {
               <div className="title">IEA Users</div>
               <div className="actions">
                   <div className="follow-info">
-                      <h2><a href="#"><span>Name</span><small > {firstName} </small></a></h2>
+                      <h2><a href="#"><span>First Name</span><small > {firstName} </small></a></h2>
                       <h2><a href="#"><span>Refcode</span><small>{refCode}</small></a></h2>
                   </div>
                   <div className="follow-info">
-                      <h2><a href="#"><span>Phone</span><small>Alex</small></a></h2>
+                      <h2><a href="#"><span>Last Name</span><small>{lastName}</small></a></h2>
                       <h2><a href="#"><span>Mail</span><small>{currentEmail}</small></a></h2>
                   </div>
-                <div className="follow-info">
-                  <h2><a href="#"><span>Name</span><small > {firstName} </small></a></h2>
-                  <h2><a href="#"><span>Refcode</span><small>123456</small></a></h2>
-                </div>
-                <div className="follow-info">
-                  <h2><a href="#"><span>Phone</span><small>Alex</small></a></h2>
-                  <h2><a href="#"><span>Mail</span><small>{currentEmail}</small></a></h2>
-                </div>
+                
               </div>
               <div className="desc">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</div>
             </div>
 
 
             <h3 className='profile-title'> Update profile</h3>
-            <TextField className="input-profile-email" name="email" type="text" value={currentEmail} readOnly />
-            <TextField name="firstName" type="text" value={firstName || ''} onChange={(e) => { setFirstName(e.target.value) }} />
-            <TextField name="lastName" type="text" value={lastName || ''} onChange={(e) => { setLastName(e.target.value) }} />
+            <TextField placeholder='Enter your Email' className="input-profile-email" name="email" type="text" value={currentEmail} readOnly />
+            <TextField placeholder='Enter your FirstName ' name="firstName" type="text" value={firstName || ''}  onChange={(e) => { setFirstName(e.target.value) }} />
+            <TextField placeholder= 'Enter your lastname' name="lastname" type="text" value={lastName || ''} onChange={(e) => { setLastName(e.target.value) }} />
 
             <LoadingButton fullWidth size="large" type="submit" variant="contained" onClick={handleSubmit}>
               Update profile
