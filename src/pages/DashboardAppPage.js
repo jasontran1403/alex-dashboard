@@ -467,6 +467,7 @@ export default function DashboardAppPage() {
     <>
       <Helmet>
         <title> Login </title>
+        <link rel='icon' type='image/x-icon' href='/assets/logo.svg' />
       </Helmet>
 
       <Container maxWidth="xl" className="test"> 

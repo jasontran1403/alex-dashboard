@@ -24,6 +24,8 @@ export default function ProductsPage() {
     <>
       <Helmet>
         <title> Dashboard: Products | InfinityEA </title>
+        <link rel='icon' type='image/x-icon' href='/assets/logo.svg' />
+
       </Helmet>
 
       <Container>

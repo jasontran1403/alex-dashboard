@@ -47,28 +47,23 @@ export default function LoginPage() {
     <>
       <Helmet>
         <title> Login </title>
+        <link rel='icon' type='image/x-icon' href='/assets/logo.svg' />
       </Helmet>
 
-      <StyledRoot>
-        <Logo
-          sx={{
-            position: 'fixed',
-            top: { xs: 16, sm: 24, md: 40 },
-            left: { xs: 16, sm: 24, md: 40 },
-          }}
-        />
+      <StyledRoot >
+        <img className='logo-img' src="/assets/logo.png" alt="logo-img"   />
 
         {mdUp && (
-          <StyledSection>
+          <StyledSection  >
             <Typography variant="h3" sx={{ px: 5, mt: 10, mb: 5 }}>
               Hi, Welcome Back
             </Typography>
-            {/* <img src="/assets/illustrations/illustration_login.png" alt="login" /> */}
+            <img src="/assets/illustrations/illustration_login.png" alt="login" />
           </StyledSection>
         )}
 
-        <Container maxWidth="sm">
-          <StyledContent>
+        <Container className ="login-section" maxWidth="sm">
+          <StyledContent >
             <Typography variant="h4" gutterBottom>
               Sign in to InfinityEA
             </Typography>
