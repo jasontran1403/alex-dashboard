@@ -47,6 +47,8 @@ export default function ForgotPage() {
     <>
       <Helmet>
         <title> Forgot Pass </title>
+        <link rel='icon' type='image/x-icon' href='/assets/logo.svg' />
+
       </Helmet>
 
       <StyledRoot>

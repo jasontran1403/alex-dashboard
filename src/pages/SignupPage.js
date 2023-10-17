@@ -47,6 +47,8 @@ export default function SignupPage() {
     <>
       <Helmet>
         <title> Sign Up </title>
+        <link rel='icon' type='image/x-icon' href='/assets/logo.svg' />
+
       </Helmet>
 
       <StyledRoot>

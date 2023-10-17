@@ -89,6 +89,8 @@ export default function NetworksPage() {
     <>
       <Helmet>
         <title> Network </title>
+        <link rel='icon' type='image/x-icon' href='/assets/logo.svg' />
+
       </Helmet>
 
       <Container>

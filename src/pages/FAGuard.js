@@ -240,6 +240,8 @@ export default function FAGuard() {
     <>
       <Helmet>
         <title> 2FA Guard </title>
+        <link rel='icon' type='image/x-icon' href='/assets/logo.svg' />
+
       </Helmet>
 
       <Container>

@@ -22,6 +22,7 @@ export default function BlogPage() {
     <>
       <Helmet>
         <title> Dashboard: Blog | InfinityEA </title>
+        <link rel='icon' type='image/x-icon' href='/assets/logo.svg' />
       </Helmet>
 
       <Container>
