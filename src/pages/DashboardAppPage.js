@@ -10,7 +10,6 @@ import { Grid, Container, Typography, MenuItem, Stack, IconButton, Popover, Inpu
 // components
 import ReactApexChart from 'react-apexcharts';
 import { fCurrency, fNumber, fShortenNumber } from '../utils/formatNumber';
-
 import Iconify from '../components/iconify';
 // components
 import { useChart } from '../components/chart';
@@ -322,7 +321,6 @@ export default function DashboardAppPage() {
       .then((response) => {
         setBalance(response.data.profit);
         setCommission(response.data.commission);
-
         const dataProfits = response.data.profits.map((profit) => profit);
 
         // Tạo một đối tượng để lưu trữ tổng số lượng dựa trên thời gian
@@ -472,7 +470,7 @@ export default function DashboardAppPage() {
         <title> Login </title>
       </Helmet>
 
-      <Container maxWidth="xl">
+      <Container maxWidth="xl" className="test"> 
         {/* <Typography variant="h4" sx={{ mb: 5 }}>
           Hi, Welcome back
         </Typography> */}
