@@ -32,7 +32,33 @@ export default function AccountPopover() {
   const [currentAccessToken] = useState(localStorage.getItem("access_token"));
   const [open, setOpen] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [image] = useState(localStorage.getItem("image") || '/assets/images/avatars/avatar_default.png');
+  const [currentEmail] = useState(localStorage.getItem("email") ? localStorage.getItem("email") : "");
+  const [image,setImage] = useState("")
+  
+
+
+  useEffect(() => {
+    const config = {
+      method: 'get',
+      url: `${prod}/api/v1/secured/avatar/${currentEmail}`,
+      responseType: 'blob',
+      headers: {
+        'Authorization': `Bearer ${currentAccessToken}`
+      }
+    };
+
+    axios(config)
+      .then((response) => {
+        // Chuyển dữ liệu blob thành URL cho hình ảnh
+        const imgUrl = URL.createObjectURL(response.data);
+        localStorage.setItem("image", imgUrl);
+        setImage(imgUrl);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
+  }, []);
 
   const handleCloseModal = () => {
     setIsModalOpen(false);

@@ -517,7 +517,7 @@ export default function DashboardAppPage() {
 
         <Grid container spacing={3}>
           <Grid item xs={12} sm={4} md={4}>
-            <AppWidgetSummary className="balance-section" sx={{ mb: 2 }} title="Balance" total={balance} icon={'noto:money-with-wings'} />
+            <AppWidgetSummary className="balance-section" sx={{ mb: 2 }} total={balance} title="Balance" icon={'noto:money-with-wings'} />
             <AppWidgetSummary className="deposit-section" sx={{ mb: 2 }} title="Total Deposit" total={prevDeposit} icon={'vaadin:money-deposit'} />
 
           </Grid>

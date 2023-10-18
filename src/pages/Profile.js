@@ -283,14 +283,18 @@ export default function Profile() {
             <div className="card">
 
               <div className="banner">
-                <Button fullWidth component="label" >
                 <div className = "profile-img">
-                <img src={image || "assets/images/avatars/25.jpg"} alt="profile-img" />
-                </div>
+                <Button className="avatar-btn" fullWidth component="label" >      
+                  <img src={image || "assets/images/avatars/25.jpg"} alt="profile-img" />
 
+                  <div className="overlay">
+                    <div className="text">Change Avatar </div>
+                  </div> 
+                <VisuallyHiddenInput type="file" onChange={(e) => { handleFileSelect(e) }} />
+                
+                </Button>                            
+                </div>
                
-                  <VisuallyHiddenInput type="file" onChange={(e) => { handleFileSelect(e) }} />
-                </Button>
 
               </div>
               <div className="menu">
