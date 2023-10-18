@@ -315,7 +315,7 @@ export default function Profile() {
 
             <h3 className='profile-title'> Update profile</h3>
             <TextField placeholder='Enter your Email' className="input-profile-email" name="email" type="text" value={currentEmail} readOnly />
-            <TextField placeholder='Enter your FirstName ' name="firstName" type="text" value={firstName || ''}  onChange={(e) => { setFirstName(e.target.value) }} />
+            <TextField placeholder='Enter your FirstName ' name="firstName" type="text" value={firstName || ''}  onChange={(e) => { setFirstName(e.target.value) }  } />
             <TextField placeholder= 'Enter your lastname' name="lastname" type="text" value={lastName || ''} onChange={(e) => { setLastName(e.target.value) }} />
 
             <LoadingButton fullWidth size="large" type="submit" variant="contained" onClick={handleSubmit}>

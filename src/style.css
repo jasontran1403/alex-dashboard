@@ -13,9 +13,13 @@ html {
     box-sizing: border-box;
 }
 
+:root {
+  --whitecolor : #fff;
+  --blackcolor: #000;
+}
 
 
-/*  */
+/* login-section  */
 .login-section {
     background: url('/public/background.jpg') top center / cover no-repeat;
     max-width: 1600px;
@@ -25,6 +29,75 @@ html {
     position: fixed;
     top: 5%;
     left: 3%;
+}
+
+
+/* darkboard-section */
+
+.balance-section {
+  background-color: #495aff;
+  color: var(--whitecolor);
+}
+
+.balance-section > div {
+  background-color: var(--whitecolor);
+  height: 80px;
+  width: 80px;
+}
+
+.balance-section > div > svg {
+  height: 30px;
+  width: 30px;
+}
+
+.deposit-section {
+  background-color: #fb6d3f;
+  color: var(--whitecolor);
+}
+
+.deposit-section > div {
+  background-color: var(--whitecolor);
+  height: 80px;
+  width: 80px;
+}
+
+.deposit-section > div > svg {
+  height: 30px;
+  width: 30px;
+}
+
+
+.commission-section {
+  background-color: #ff3273;
+  color: var(--whitecolor);
+  
+}
+
+.commission-section > div {
+  background-color: var(--whitecolor);
+  height: 80px;
+  width: 80px;
+}
+
+.commission-section > div > svg {
+  height: 30px;
+  width: 30px;
+}
+
+.withdraw-section {
+  background-color:#5dc95a;
+  color: var(--whitecolor);
+}
+
+.withdraw-section > div {
+  background-color: var(--whitecolor);
+  height: 80px;
+  width: 80px;
+}
+
+.withdraw-section > div > svg {
+  height: 30px;
+  width: 30px;
 }
 
 
