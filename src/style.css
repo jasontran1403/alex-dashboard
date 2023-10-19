@@ -32,7 +32,74 @@ html {
 }
 
 
-/* darkboard-section */
+
+/* nav-section */
+
+.MuiPaper-root.MuiPaper-elevation.MuiPaper-elevation0.MuiDrawer-paper.MuiDrawer-paperAnchorLeft.MuiDrawer-paperAnchorDockedLeft.css-mpr9kc-MuiPaper-root-MuiDrawer-paper {
+  background-color: #fff;
+  box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px
+}
+
+.nav-img-container {
+  display: flex;
+  align-items: center;
+  padding: 16px 20px;
+  background-color: transparent;
+}
+
+
+.nav-header-img {
+  margin: 0 auto;
+}
+
+.nav-title {
+  color: gray;
+  font-weight: 600;
+  font-size: 18px;
+  letter-spacing: 1.5px;
+}
+
+.css-13i4rnv-MuiGrid-root {
+  text-align: right;
+}
+
+.css-119926t-MuiPaper-root-MuiPopover-paper {
+  width: 200px;
+}
+
+
+.ref-container {
+  text-align: center;
+  color: #3a52a3;
+  margin-top: 28px;
+}
+
+.ref-title {
+  font-size: 26px;
+  font-weight: 900;
+  letter-spacing: 1px;
+}
+
+.ref-code {
+  font-size: 24px;
+  font-weight: 100;
+  letter-spacing: 2px;
+}
+
+.line {
+  background-color: #3a52a3;
+  display: block;
+  height: 6px;
+  width: 86px;
+  margin: 15px auto;
+}
+
+.ref-footer {
+  font-weight: 600;
+}
+
+
+/* dashboard-section */
 
 .balance-section {
   background-color: #495aff;
@@ -43,27 +110,31 @@ html {
   background-color: var(--whitecolor);
   height: 80px;
   width: 80px;
+  background-image: none;
 }
 
 .balance-section > div > svg {
-  height: 30px;
-  width: 30px;
+  height: 40px;
+  width: 40px;
 }
 
 .deposit-section {
   background-color: #fb6d3f;
   color: var(--whitecolor);
+  
 }
 
 .deposit-section > div {
   background-color: var(--whitecolor);
   height: 80px;
   width: 80px;
+  background-image: none;
+
 }
 
 .deposit-section > div > svg {
-  height: 30px;
-  width: 30px;
+  height: 40px;
+  width: 40px;
 }
 
 
@@ -77,11 +148,13 @@ html {
   background-color: var(--whitecolor);
   height: 80px;
   width: 80px;
+  background-image: none;
+
 }
 
 .commission-section > div > svg {
-  height: 30px;
-  width: 30px;
+  height: 40px;
+  width: 40px;
 }
 
 .withdraw-section {
@@ -93,13 +166,18 @@ html {
   background-color: var(--whitecolor);
   height: 80px;
   width: 80px;
+  background-image: none;
+
 }
 
 .withdraw-section > div > svg {
-  height: 30px;
-  width: 30px;
+  height: 40px;
+  width: 40px;
 }
 
+.css-vluhx3-MuiPaper-root-MuiCard-root {
+  height: calc(100% - 16px);
+}
 
 /*  */
 

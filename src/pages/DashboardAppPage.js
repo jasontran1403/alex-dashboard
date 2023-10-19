@@ -473,27 +473,17 @@ export default function DashboardAppPage() {
         {/* <Typography variant="h4" sx={{ mb: 5 }}>
           Hi, Welcome back
         </Typography> */}
-        <Grid item xs={12} sm={12} md={12} >
-          <IconButton
-            onClick={handleOpen2}
-            sx={{
-              padding: 0,
-              width: 44,
-              height: 44,
-              ...(open2 && {
-                bgcolor: (theme) => alpha(theme.palette.primary.main, theme.palette.action.focusOpacity),
-              }),
-            }}
-          >
-            <Input type="text" value={currentExness === "All" ? currentExness : `Exness ID ${currentExness}`} style={{ minWidth: "200px", marginLeft: "120px", paddingLeft: "20px", cursor: "pointer!important", }} />
-          </IconButton>
-          <Popover
+        <Grid item xs={12} sm={12} md={12} >   
+
+            <Input className="form-field " onClick={handleOpen2} type="text" value={ 'Search' || currentExness === "All" ? currentExness : `Exness ID ${currentExness}`} style={{ minWidth: "200px", marginBottom: "15px", paddingLeft: "10px", cursor: "pointer!important", }} />
+          <Popover 
+            
             open={Boolean(open2)}
             anchorEl={open2}
             onClose={handleClose2}
             anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
             transformOrigin={{ vertical: 'top', horizontal: 'left' }}
-            PaperProps={{
+            PaperProps ={{
               sx: {
                 p: 1,
                 width: 140,
@@ -514,19 +504,21 @@ export default function DashboardAppPage() {
           </Popover>
         </Grid>
 
-        <Grid container spacing={3}>
-          <Grid item xs={12} sm={4} md={4}>
-            <AppWidgetSummary className="balance-section" sx={{ mb: 2 }} total={balance} title="Balance" icon={'noto:money-with-wings'} />
-            <AppWidgetSummary className="deposit-section" sx={{ mb: 2 }} title="Total Deposit" total={prevDeposit} icon={'vaadin:money-deposit'} />
+        <Grid  container spacing={3}>
+              <Grid item xs={12} sm={4} md={4}>
+                <AppWidgetSummary className="balance-section" sx={{ mb: 2 }} total={balance} title="Balance" icon={'noto:money-with-wings'} />
+                <AppWidgetSummary className="deposit-section" sx={{ mb: 2 }} title="Total Deposit" total={prevDeposit} icon={'vaadin:money-deposit'} />
 
-          </Grid>
-          <Grid item xs={12} sm={4} md={4}>
-            <AppWidgetSummaryUSD className="commission-section" sx={{ mb: 2 }} title="Total Commissions" total={commission} color="info" icon={'flat-color-icons:bullish'} />
-            <AppWidgetSummary className="withdraw-section" sx={{ mb: 2 }} title="Total Withdraw" total={prevWithdraw} icon={'vaadin:money-withdraw'} />
-          </Grid>
+              </Grid>
+              <Grid item xs={12} sm={4} md={4}>
+                <AppWidgetSummaryUSD className="commission-section" sx={{ mb: 2 }} title="Total Commissions" total={commission} color="info" icon={'flat-color-icons:bullish'} />
+                <AppWidgetSummary className="withdraw-section" sx={{ mb: 2 }} title="Total Withdraw" total={prevWithdraw} icon={'vaadin:money-withdraw'} />
+              </Grid>
+
+
 
           <Grid item xs={12} sm={4} md={4}>
-            <AppCurrentVisits
+            <AppCurrentVisits 
               title="Assets last month"
               change={balance - prevBalance}
               chartData={[
