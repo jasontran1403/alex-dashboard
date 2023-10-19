@@ -45,6 +45,32 @@ export default function Nav({ openNav, onCloseNav }) {
   const [currentAccessToken] = useState(localStorage.getItem("access_token") ? localStorage.getItem("access_token") : "");
   const [refCode, setRefCode] = useState("");
   const isDesktop = useResponsive('up', 'lg');
+  const [image, setImage] = useState("");
+
+  useEffect(() => {
+    const config = {
+      method: 'get',
+      url: `${prod}/api/v1/secured/avatar/${currentEmail}`,
+      responseType: 'blob',
+      headers: {
+        'Authorization': `Bearer ${currentAccessToken}`
+      }
+    };
+
+    axios(config)
+      .then((response) => {
+        // Chuyển dữ liệu blob thành URL cho hình ảnh
+        const imgUrl = URL.createObjectURL(response.data);
+        localStorage.setItem("image", imgUrl);
+        setImage(imgUrl);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
+  }, []);
+  
+
 
   useEffect(() => {
     const data = JSON.stringify({
@@ -114,7 +140,7 @@ export default function Nav({ openNav, onCloseNav }) {
       <Box sx={{ mb: 5, mx: 2.5 }}>
         <Link underline="none">
           <StyledAccount>
-            <Avatar src={account.photoURL} alt="photoURL" />
+            <Avatar src={image || '/assets/images/avatars/avatar_1.jpg'} alt="photoURL" />
 
             <Box sx={{ ml: 2 }}>
               <Typography variant="subtitle1" sx={{ color: 'text.primary' }}>

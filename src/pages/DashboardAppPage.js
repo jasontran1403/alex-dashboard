@@ -466,7 +466,7 @@ export default function DashboardAppPage() {
   return (
     <>
       <Helmet>
-        <title> Login </title>
+        <title> Dashboard </title>
         <link rel='icon' type='image/x-icon' href='/assets/logo.svg' />
       </Helmet>
 
@@ -517,13 +517,13 @@ export default function DashboardAppPage() {
 
         <Grid container spacing={3}>
           <Grid item xs={12} sm={4} md={4}>
-            <AppWidgetSummary sx={{ mb: 2 }} title="Balance" total={balance} icon={'noto:money-with-wings'} />
-            <AppWidgetSummary sx={{ mb: 2 }} title="Total Deposit" total={prevDeposit} icon={'vaadin:money-deposit'} />
+            <AppWidgetSummary className="balance-section" sx={{ mb: 2 }} total={balance} title="Balance" icon={'noto:money-with-wings'} />
+            <AppWidgetSummary className="deposit-section" sx={{ mb: 2 }} title="Total Deposit" total={prevDeposit} icon={'vaadin:money-deposit'} />
 
           </Grid>
           <Grid item xs={12} sm={4} md={4}>
-            <AppWidgetSummaryUSD sx={{ mb: 2 }} title="Total Commissions" total={commission} color="info" icon={'flat-color-icons:bullish'} />
-            <AppWidgetSummary sx={{ mb: 2 }} title="Total Withdraw" total={prevWithdraw} icon={'vaadin:money-withdraw'} />
+            <AppWidgetSummaryUSD className="commission-section" sx={{ mb: 2 }} title="Total Commissions" total={commission} color="info" icon={'flat-color-icons:bullish'} />
+            <AppWidgetSummary className="withdraw-section" sx={{ mb: 2 }} title="Total Withdraw" total={prevWithdraw} icon={'vaadin:money-withdraw'} />
           </Grid>
 
           <Grid item xs={12} sm={4} md={4}>

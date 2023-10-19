@@ -42,12 +42,65 @@ const StyledContent = styled('div')(({ theme }) => ({
   flexDirection: 'column',
 }));
 
+
+
 export default function Profile() {
   const navigate = useNavigate();
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [currentEmail] = useState(localStorage.getItem("email") ? localStorage.getItem("email") : "");
   const [currentAccessToken] = useState(localStorage.getItem("access_token") ? localStorage.getItem("access_token") : "");
+  const [refCode, setRefCode] = useState("");
+
+  
+  useEffect(() => {
+    const data = JSON.stringify({
+      "email": currentEmail
+    });
+
+    const config = {
+      method: 'post',
+      maxBodyLength: Infinity,
+      url: `${prod}/api/v1/secured/get-info`,
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${currentAccessToken}`
+      },
+      "data": data
+    };
+
+    axios.request(config)
+      .then((response) => {
+        setRefCode(response.data.refCode);
+      })
+      .catch((error) => {
+        if (error.response.status === 403) {
+          Swal.fire({
+            title: "An error occured",
+            icon: "error",
+            timer: 3000,
+            position: 'center',
+            showConfirmButton: false
+          });
+        } else if (error.response.status === 410) {
+          Swal.fire({
+            title: "Session is ended, please login again !",
+            icon: "error",
+            timer: 3000,
+            position: 'center',
+            showConfirmButton: false
+          }).then(() => {
+            localStorage.clear();
+            navigate('/login', { replace: true });
+          });
+        } else {
+          console.log(error.response);
+        }
+      });
+
+  }, []);
+
+
   const [image, setImage] = useState("");
   const [fileSelected, setFileSelected] = useState(null);
 
@@ -230,10 +283,18 @@ export default function Profile() {
             <div className="card">
 
               <div className="banner">
-                <Button fullWidth component="label" color={"warning"}>
-                  <img className="profile-img" src={image || "assets/images/avatars/25.jpg"} alt="profile-img" />
-                  <VisuallyHiddenInput type="file" onChange={(e) => { handleFileSelect(e) }} />
-                </Button>
+                <div className = "profile-img">
+                <Button className="avatar-btn" fullWidth component="label" >      
+                  <img src={image || "assets/images/avatars/25.jpg"} alt="profile-img" />
+
+                  <div className="overlay">
+                    <div className="text">Change Avatar </div>
+                  </div> 
+                <VisuallyHiddenInput type="file" onChange={(e) => { handleFileSelect(e) }} />
+                
+                </Button>                            
+                </div>
+               
 
               </div>
               <div className="menu">
@@ -242,23 +303,24 @@ export default function Profile() {
               <h2 className="name">{firstName} {lastName} </h2>
               <div className="title">IEA Users</div>
               <div className="actions">
-                <div className="follow-info">
-                  <h2><a href="#"><span>Name</span><small > {firstName} </small></a></h2>
-                  <h2><a href="#"><span>Refcode</span><small>123456</small></a></h2>
-                </div>
-                <div className="follow-info">
-                  <h2><a href="#"><span>Phone</span><small>Alex</small></a></h2>
-                  <h2><a href="#"><span>Mail</span><small>{currentEmail}</small></a></h2>
-                </div>
+                  <div className="follow-info">
+                      <h2><a href="#"><span>First Name</span><small > {firstName} </small></a></h2>
+                      <h2><a href="#"><span>Refcode</span><small>{refCode}</small></a></h2>
+                  </div>
+                  <div className="follow-info">
+                      <h2><a href="#"><span>Last Name</span><small>{lastName}</small></a></h2>
+                      <h2><a href="#"><span>Mail</span><small>{currentEmail}</small></a></h2>
+                  </div>
+                
               </div>
               <div className="desc">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</div>
             </div>
 
 
             <h3 className='profile-title'> Update profile</h3>
-            <TextField className="input-profile-email" name="email" type="text" value={currentEmail} readOnly />
-            <TextField name="firstName" type="text" value={firstName || ''} onChange={(e) => { setFirstName(e.target.value) }} />
-            <TextField name="lastName" type="text" value={lastName || ''} onChange={(e) => { setLastName(e.target.value) }} />
+            <TextField placeholder='Enter your Email' className="input-profile-email" name="email" type="text" value={currentEmail} readOnly />
+            <TextField placeholder='Enter your FirstName ' name="firstName" type="text" value={firstName || ''}  onChange={(e) => { setFirstName(e.target.value) }  } />
+            <TextField placeholder= 'Enter your lastname' name="lastname" type="text" value={lastName || ''} onChange={(e) => { setLastName(e.target.value) }} />
 
             <LoadingButton fullWidth size="large" type="submit" variant="contained" onClick={handleSubmit}>
               Update profile
