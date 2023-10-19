@@ -35,6 +35,11 @@ html {
 
 /* nav-section */
 
+.MuiPaper-root.MuiPaper-elevation.MuiPaper-elevation0.MuiDrawer-paper.MuiDrawer-paperAnchorLeft.MuiDrawer-paperAnchorDockedLeft.css-mpr9kc-MuiPaper-root-MuiDrawer-paper {
+  background-color: #fff;
+  box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px
+}
+
 .nav-img-container {
   display: flex;
   align-items: center;
@@ -42,9 +47,26 @@ html {
   background-color: transparent;
 }
 
+
 .nav-header-img {
   margin: 0 auto;
 }
+
+.nav-title {
+  color: gray;
+  font-weight: 600;
+  font-size: 18px;
+  letter-spacing: 1.5px;
+}
+
+.css-13i4rnv-MuiGrid-root {
+  text-align: right;
+}
+
+.css-119926t-MuiPaper-root-MuiPopover-paper {
+  width: 200px;
+}
+
 
 .ref-container {
   text-align: center;
@@ -153,6 +175,9 @@ html {
   width: 40px;
 }
 
+.css-vluhx3-MuiPaper-root-MuiCard-root {
+  height: calc(100% - 16px);
+}
 
 /*  */
 

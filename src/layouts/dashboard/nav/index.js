@@ -104,7 +104,7 @@ export default function Nav({ openNav, onCloseNav }) {
   }, [pathname]);
 
   const renderContent = (
-    <Scrollbar
+    <Scrollbar id ="abc"
       sx={{
         height: 1,
         '& .simplebar-content': { height: 1, display: 'flex', flexDirection: 'column' },
