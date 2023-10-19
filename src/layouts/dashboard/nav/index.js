@@ -45,31 +45,8 @@ export default function Nav({ openNav, onCloseNav }) {
   const [currentAccessToken] = useState(localStorage.getItem("access_token") ? localStorage.getItem("access_token") : "");
   const [refCode, setRefCode] = useState("");
   const isDesktop = useResponsive('up', 'lg');
-  const [image, setImage] = useState("");
 
-  useEffect(() => {
-    const config = {
-      method: 'get',
-      url: `${prod}/api/v1/secured/avatar/${currentEmail}`,
-      responseType: 'blob',
-      headers: {
-        'Authorization': `Bearer ${currentAccessToken}`
-      }
-    };
 
-    axios(config)
-      .then((response) => {
-        // Chuyển dữ liệu blob thành URL cho hình ảnh
-        const imgUrl = URL.createObjectURL(response.data);
-        localStorage.setItem("image", imgUrl);
-        setImage(imgUrl);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-
-  }, []);
-  
 
 
   useEffect(() => {
@@ -156,9 +133,10 @@ export default function Nav({ openNav, onCloseNav }) {
 
       <NavSection data={navConfig} />
       <div className='ref-container'>
-                <h3>Refferal code:</h3>
-                <span> {refCode} </span>
-                <div> coppy-right a b c </div>
+                <h3 className='ref-title' >Refferal code:</h3>
+                <span className='ref-code'> {refCode} </span>
+                <span className='line'/>
+                <div className='ref-footer'> Copyright © by InfinityEA </div>
 
               </div>
       <Box sx={{ flexGrow: 1 }} />

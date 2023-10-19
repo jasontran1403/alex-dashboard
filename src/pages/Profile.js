@@ -113,7 +113,6 @@ export default function Profile() {
       method: 'post',
       maxBodyLength: Infinity,
       url: `${prod}/api/v1/secured/get-info`,
-      responseType: 'blob',
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${currentAccessToken}`
@@ -123,6 +122,7 @@ export default function Profile() {
 
     axios.request(config)
       .then((response) => {
+        console.log(response.data);
         setFirstName(response.data.firstName);
         setLastName(response.data.lastName);
       })
