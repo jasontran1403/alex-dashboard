@@ -365,7 +365,6 @@ export default function DashboardAppPage() {
           amount: timeMapBalances[time]
         }));
         setBalances(resultBalances.map((profit) => profit.amount));
-
       })
       .catch((error) => {
         if (error.response.status === 403) {
@@ -434,7 +433,7 @@ export default function DashboardAppPage() {
           text: 'Balances',
         },
         tickAmount: 5,
-        max: balance * 2,
+        max: balance === 0 ? 50000 : balance > 500000 ? balance * 2 : balance * 3,
         labels: {
           "formatter": function (value) {
             if (typeof value === "undefined" || value === 5e-324) {
