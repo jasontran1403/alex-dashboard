@@ -158,7 +158,7 @@ export default function Nav({ openNav, onCloseNav }) {
       <div className='ref-container'>
                 <h3>Refferal code:</h3>
                 <span> {refCode} </span>
-                <div> coppy-right </div>
+                <div> coppy-right a b c </div>
 
               </div>
       <Box sx={{ flexGrow: 1 }} />
