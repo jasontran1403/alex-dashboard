@@ -32,7 +32,22 @@ html {
 }
 
 
-/* darkboard-section */
+
+/* nav-section */
+
+.nav-img-container {
+  display: flex;
+  align-items: center;
+  padding: 16px 20px;
+  background-color: transparent;
+}
+
+.nav-header-img {
+  margin: 0 auto;
+}
+
+
+/* dashboard-section */
 
 .balance-section {
   background-color: #495aff;

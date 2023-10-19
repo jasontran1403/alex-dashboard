@@ -51,7 +51,7 @@ export default function LoginPage() {
       </Helmet>
 
       <StyledRoot >
-        <img className='logo-img' src="/assets/logo.png" alt="logo-img"   />
+        <img className='logo-img' src="/assets/logo.png" alt="logo-img" />
 
         {mdUp && (
           <StyledSection  >
