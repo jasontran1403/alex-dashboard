@@ -48,6 +48,7 @@ export default function Profile() {
   const navigate = useNavigate();
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
+  const [bio, setBio] = useState("");
   const [currentEmail] = useState(localStorage.getItem("email") ? localStorage.getItem("email") : "");
   const [currentAccessToken] = useState(localStorage.getItem("access_token") ? localStorage.getItem("access_token") : "");
   const [refCode, setRefCode] = useState("");
@@ -125,6 +126,7 @@ export default function Profile() {
         console.log(response.data);
         setFirstName(response.data.firstName);
         setLastName(response.data.lastName);
+        setBio(response.data.bio);
       })
       .catch((error) => {
         if (error.response.status === 403) {
@@ -189,7 +191,8 @@ export default function Profile() {
     const data = JSON.stringify({
       "email": currentEmail,
       "firstName": firstName,
-      "lastName": lastName
+      "lastName": lastName,
+      "bio": bio,
     });
 
     const config = {
@@ -313,7 +316,7 @@ export default function Profile() {
                   </div>
                 
               </div>
-              <div className="desc">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</div>
+              <div className="desc">{bio}</div>
             </div>
 
 
@@ -321,6 +324,8 @@ export default function Profile() {
             <TextField placeholder='Enter your Email' className="input-profile-email" name="email" type="text" value={currentEmail} readOnly />
             <TextField placeholder='Enter your FirstName ' name="firstName" type="text" value={firstName || ''}  onChange={(e) => { setFirstName(e.target.value) }  } />
             <TextField placeholder= 'Enter your lastname' name="lastname" type="text" value={lastName || ''} onChange={(e) => { setLastName(e.target.value) }} />
+            <TextField placeholder= 'Enter your lastname' name="bio" type="text" value={bio || ''} onChange={(e) => { setBio(e.target.value) }} />
+
 
             <LoadingButton fullWidth size="large" type="submit" variant="contained" onClick={handleSubmit}>
               Update profile

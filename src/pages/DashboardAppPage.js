@@ -469,10 +469,10 @@ export default function DashboardAppPage() {
         <link rel='icon' type='image/x-icon' href='/assets/logo.svg' />
       </Helmet>
 
-      <Container maxWidth="xl" className="test"> 
-        {/* <Typography variant="h4" sx={{ mb: 5 }}>
-          Hi, Welcome back
-        </Typography> */}
+      <Container maxWidth="xl"> 
+        <Typography variant="h4" sx={{ mb: 5 }}>
+          Dashboard
+        </Typography>
         <Grid item xs={12} sm={12} md={12} >   
 
             <Input className="form-field " onClick={handleOpen2} type="text" value={ 'Search' || currentExness === "All" ? currentExness : `Exness ID ${currentExness}`} style={{ minWidth: "200px", marginBottom: "15px", paddingLeft: "10px", cursor: "pointer!important", }} />
@@ -484,9 +484,11 @@ export default function DashboardAppPage() {
             anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
             transformOrigin={{ vertical: 'top', horizontal: 'left' }}
             PaperProps ={{
+            
               sx: {
                 p: 1,
-                width: 140,
+                width: 240,
+                marginTop: "40px",
                 '& .MuiMenuItem-root': {
                   px: 1,
                   typography: 'body2',
@@ -506,19 +508,19 @@ export default function DashboardAppPage() {
 
         <Grid  container spacing={3}>
               <Grid item xs={12} sm={4} md={4}>
-                <AppWidgetSummary className="balance-section" sx={{ mb: 2 }} total={balance} title="Balance" icon={'noto:money-with-wings'} />
-                <AppWidgetSummary className="deposit-section" sx={{ mb: 2 }} title="Total Deposit" total={prevDeposit} icon={'vaadin:money-deposit'} />
+                <AppWidgetSummary className="balance-section" sx={{ mb: 2 }} total={balance} title="Balance" icon={'mi:bar-chart-alt'} />
+                <AppWidgetSummary className="deposit-section" sx={{ mb: 2 }} title="Total Deposit" total={prevDeposit} icon={'iconoir:coins-swap'} />
 
               </Grid>
               <Grid item xs={12} sm={4} md={4}>
-                <AppWidgetSummaryUSD className="commission-section" sx={{ mb: 2 }} title="Total Commissions" total={commission} color="info" icon={'flat-color-icons:bullish'} />
-                <AppWidgetSummary className="withdraw-section" sx={{ mb: 2 }} title="Total Withdraw" total={prevWithdraw} icon={'vaadin:money-withdraw'} />
+                <AppWidgetSummaryUSD className="commission-section" sx={{ mb: 2 }} title="Total Commissions" total={commission} color="info" icon={'mi:layers'} />
+                <AppWidgetSummary className="withdraw-section" sx={{ mb: 2 }} title="Total Withdraw" total={prevWithdraw} icon={'iconoir:coins-swap'} />
               </Grid>
 
 
 
-          <Grid item xs={12} sm={4} md={4}>
-            <AppCurrentVisits 
+          <Grid id item xs={12} sm={4} md={4}>
+            <AppCurrentVisits className="assets-section"
               title="Assets last month"
               change={balance - prevBalance}
               chartData={[
@@ -566,11 +568,13 @@ export default function DashboardAppPage() {
               PaperProps={{
                 sx: {
                   p: 1,
-                  width: 140,
+                  width: 160,
+                  marginTop: '50px' ,
                   '& .MuiMenuItem-root': {
                     px: 1,
                     typography: 'body2',
                     borderRadius: 0.75,
+              
                   },
                 },
               }}
@@ -612,7 +616,6 @@ export default function DashboardAppPage() {
               </Box>
             </Card>
           </Grid>
-          <span className="test">asdasdlasd</span>
 
 
           {/* <Grid item xs={12} md={6} lg={8}>

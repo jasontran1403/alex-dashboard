@@ -35,10 +35,6 @@ html {
 
 /* nav-section */
 
-.MuiPaper-root.MuiPaper-elevation.MuiPaper-elevation0.MuiDrawer-paper.MuiDrawer-paperAnchorLeft.MuiDrawer-paperAnchorDockedLeft.css-mpr9kc-MuiPaper-root-MuiDrawer-paper {
-  background-color: #fff;
-  box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px
-}
 
 .nav-img-container {
   display: flex;
@@ -59,13 +55,6 @@ html {
   letter-spacing: 1.5px;
 }
 
-.css-13i4rnv-MuiGrid-root {
-  text-align: right;
-}
-
-.css-119926t-MuiPaper-root-MuiPopover-paper {
-  width: 200px;
-}
 
 
 .ref-container {
@@ -116,6 +105,7 @@ html {
 .balance-section > div > svg {
   height: 40px;
   width: 40px;
+  color: #495aff;
 }
 
 .deposit-section {
@@ -135,6 +125,8 @@ html {
 .deposit-section > div > svg {
   height: 40px;
   width: 40px;
+  rotate: 270deg;
+  color: #fb6d3f;
 }
 
 
@@ -155,6 +147,7 @@ html {
 .commission-section > div > svg {
   height: 40px;
   width: 40px;
+  color: #ff3273;
 }
 
 .withdraw-section {
@@ -173,13 +166,21 @@ html {
 .withdraw-section > div > svg {
   height: 40px;
   width: 40px;
+  color: #5dc95a;
 }
 
-.css-vluhx3-MuiPaper-root-MuiCard-root {
+.assets-section {
   height: calc(100% - 16px);
 }
 
-/*  */
+/*exness  */
+
+.exness-title {
+  text-align: left;
+  flex-grow: 6;
+}
+
+
 
 
 .card {

@@ -104,7 +104,7 @@ export default function Nav({ openNav, onCloseNav }) {
   }, [pathname]);
 
   const renderContent = (
-    <Scrollbar id ="abc"
+    <Scrollbar 
       sx={{
         height: 1,
         '& .simplebar-content': { height: 1, display: 'flex', flexDirection: 'column' },
@@ -179,11 +179,12 @@ export default function Nav({ openNav, onCloseNav }) {
         <Drawer
           open
           variant="permanent"
-          PaperProps={{
+          PaperProps ={{
             sx: {
               width: NAV_WIDTH,
-              bgcolor: 'background.default',
+              bgcolor: 'white',
               borderRightStyle: 'dashed',
+              boxShadow:'rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px'
             },
           }}
         >

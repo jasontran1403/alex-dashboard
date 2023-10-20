@@ -220,13 +220,13 @@ export default function ExnessPage() {
 
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="end" mb={5}>
-          {/* <Typography variant="h4" gutterBottom>
-            User
-          </Typography> */}
+          <Typography className='exness-title' variant="h4" gutterBottom>
+            Exness
+          </Typography>
           <Button onClick={openModal} variant="contained" startIcon={<Iconify icon="eva:plus-fill" />}>
             Add new Exness ID
           </Button>
-          <ModalExness isOpen={isModalOpen} onClose={closeModal} />
+          <ModalExness className="abc" isOpen={isModalOpen} onClose={closeModal} />
         </Stack>
 
         <Card>

@@ -46,9 +46,16 @@ export default function Header({ onOpenNav }) {
   return (
     <StyledRoot>
       <StyledToolbar>
-        <div className="nav-title">
-          Dashboard
-        </div>
+      <IconButton
+          onClick={onOpenNav}
+          sx={{
+            mr: 1,
+            color: 'text.primary',
+            display: { lg: 'none' },
+          }}
+        >
+          <Iconify icon="eva:menu-2-fill" />
+        </IconButton>
 
         {/* <Searchbar /> */}
         <Box sx={{ flexGrow: 1 }} />
