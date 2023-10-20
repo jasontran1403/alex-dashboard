@@ -51,14 +51,9 @@ export default function SignupPage() {
 
       </Helmet>
 
-      <StyledRoot>
-        <Logo
-          sx={{
-            position: 'fixed',
-            top: { xs: 16, sm: 24, md: 40 },
-            left: { xs: 16, sm: 24, md: 40 },
-          }}
-        />
+      <StyledRoot id = "abc">
+        <a href= {"/login"}> <img className='logo-img' src="/assets/logo.png" alt="logo-img" /> </a>
+
         <Container maxWidth="sm">
           <StyledContent>
             <Typography variant="h4" gutterBottom>
