@@ -26,11 +26,10 @@ ShopProductCard.propTypes = {
 
 export default function ShopProductCard({ product, onProductClick }) {
   const { email, referrer, price, image } = product;
-  console.log(image.length);
   return (
     <Card style={{ cursor: "pointer" }} onClick={() => onProductClick(product.email, product.referrer)} >
       <Box sx={{ pt: '100%', position: 'relative' }}>
-        <StyledProductImg alt={`/assets/images/avatars/avatar_8.jpg`} src={`data:image/png;base64,${image}`} />
+        <StyledProductImg alt={`/assets/images/avatars/avatar_8.jpg`} src={image ? `data:image/png;base64,${image}` : `/assets/images/avatars/avatar_8.jpg`} />
       </Box>
 
       <Stack spacing={2} sx={{ p: 3 }} style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", justifyContent: "space-between" }}>
