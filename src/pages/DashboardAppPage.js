@@ -572,17 +572,14 @@ export default function DashboardAppPage() {
           Dashboard
         </Typography>
         <Grid item xs={12} sm={12} md={12} >
-
           <Input className="form-field " onClick={handleOpen2} type="text" value={'Search' || currentExness === "All" ? currentExness : `Exness ID ${currentExness}`} style={{ minWidth: "200px", marginBottom: "15px", paddingLeft: "10px", cursor: "pointer!important", }} />
           <Popover
-
             open={Boolean(open2)}
             anchorEl={open2}
             onClose={handleClose2}
             anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
             transformOrigin={{ vertical: 'top', horizontal: 'left' }}
             PaperProps={{
-
               sx: {
                 p: 1,
                 width: 240,
@@ -660,7 +657,7 @@ export default function DashboardAppPage() {
 
 
 
-          <Grid item xs={12} sm={12} md={12}>
+          {/* <Grid item xs={12} sm={12} md={12}>
             <IconButton
               onClick={handleOpen}
               sx={{
@@ -701,20 +698,10 @@ export default function DashboardAppPage() {
                 </MenuItem>
               })}
             </Popover>
-          </Grid>
+          </Grid> */}
 
-
-
-          <Grid item xs={12} md={12} lg={12}>
-
-            {/* <AppWebsiteVisits
-              title="Commission history"
-              subheader=""
-              chartLabels={commissionLabel}
-              chartData={chartData2}
-            /> */}
-
-            <Card>
+          <Grid item xs={12} md={12} lg={12} >
+            <Card style={{ marginBottom: "30px" }}>
               <CardHeader title={"Commission history"} subheader={""} />
 
               <Box sx={{ p: 3, pb: 1 }} dir="ltr">
