@@ -136,6 +136,12 @@ html {
   
 }
 
+.total-commission-section {
+  background-color: #57e56d;
+  color: var(--whitecolor);
+  
+}
+
 .commission-section > div {
   background-color: var(--whitecolor);
   height: 80px;
