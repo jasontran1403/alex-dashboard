@@ -94,6 +94,7 @@ export default function LoginForm2() {
         }
       })
       .catch(error => {
+        console.log(error.response);
         if (error.response.status === 404) {
           Swal.fire({
             title: "Người giới thiệu không tồn tại trong hệ thống, vui lòng thử lại!",

@@ -18,7 +18,7 @@ const StyledProductImg = styled('img')({
   position: 'absolute',
 });
 
-// ----------------------------------------------------------------------
+// ---------------------------------------------------------------------- 
 
 ShopProductCard.propTypes = {
   product: PropTypes.object,

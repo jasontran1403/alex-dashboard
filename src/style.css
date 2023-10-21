@@ -136,8 +136,8 @@ html {
   
 }
 
-.total-commission-section {
-  background-color: #57e56d;
+.total-commission {
+  background-color: #57e56d!important;
   color: var(--whitecolor);
   
 }

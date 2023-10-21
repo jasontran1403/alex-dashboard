@@ -4,6 +4,7 @@ import ReactApexChart from 'react-apexcharts';
 import { Card, CardHeader, Box } from '@mui/material';
 // components
 import { useChart } from '../../../components/chart';
+import { fCurrency, fNumber, fShortenNumber } from '../../../utils/formatNumber';
 
 // ----------------------------------------------------------------------
 
@@ -15,6 +16,7 @@ AppWebsiteVisits.propTypes = {
 };
 
 export default function AppWebsiteVisits({ title, subheader, chartLabels, chartData, ...other }) {
+  console.log(chartLabels);
   const chartOptions = useChart({
     plotOptions: { bar: { columnWidth: '16%' } },
     fill: { type: chartData.map((i) => i.fill) },
@@ -26,7 +28,7 @@ export default function AppWebsiteVisits({ title, subheader, chartLabels, chartD
       y: {
         formatter: (y) => {
           if (typeof y !== 'undefined') {
-            return `$${y.toFixed(0)}`;
+            return `$${fCurrency(y)}`;
           }
           return y;
         },
