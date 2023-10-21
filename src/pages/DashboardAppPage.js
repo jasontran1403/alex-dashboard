@@ -25,6 +25,7 @@ import {
   AppTrafficBySite,
   AppWidgetSummary,
   AppWidgetSummaryUSD,
+  AppWidgetSummaryCommissions,
   AppCurrentSubject,
   AppConversionRates,
 } from '../sections/@dashboard/app';
@@ -62,6 +63,7 @@ const handleInitMonth = () => {
 }
 
 
+
 const convertToDate = (timeunix) => {
   // Tạo một đối tượng Date từ Unix timestamp
   const date = new Date(timeunix * 1000); // *1000 để chuyển đổi từ giây sang mili giây
@@ -85,6 +87,7 @@ export default function DashboardAppPage() {
   const [listExness, setListExness] = useState([]);
   const [currentExness, setCurrentExness] = useState("");
   const [label, setLabel] = useState([]);
+  const [commissionLabel, setCommissionLabel] = useState([]);
   const [profits, setProfits] = useState();
   const [commissions, setCommissions] = useState([]);
   const [listTransaction, setListTransaction] = useState([]);
@@ -96,6 +99,30 @@ export default function DashboardAppPage() {
   const [prevProfit, setPrevProfit] = useState(0.0);
   const [prevDeposit, setPrevDeposit] = useState(0.0);
   const [prevWithdraw, setPrevWithdraw] = useState(0.0);
+  const [isAdmin] = useState(currentEmail === "trantuongthuy@gmail.com");
+  const [totalCommissions, setTotalCommissions] = useState(0.0);
+
+  useEffect(() => {
+    if (currentEmail === "trantuongthuy@gmail.com") {
+      const config = {
+        method: 'get',
+        maxBodyLength: Infinity,
+        url: `${prod}/api/v1/secured/get-total-commission/${currentEmail}`,
+        headers: {
+          'Authorization': `Bearer ${currentAccessToken}`
+        }
+      };
+
+      axios.request(config)
+        .then((response) => {
+          console.log(response.data);
+          setTotalCommissions(response.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  }, []);
 
   const [open, setOpen] = useState(null);
 
@@ -147,8 +174,6 @@ export default function DashboardAppPage() {
 
     handleClose2();
   }
-
-
 
   useEffect(() => {
     setIsLoading(true);
@@ -320,6 +345,7 @@ export default function DashboardAppPage() {
       .then((response) => {
         setBalance(response.data.profit);
         setCommission(response.data.commission);
+
         const dataProfits = response.data.profits.map((profit) => profit);
 
         // Tạo một đối tượng để lưu trữ tổng số lượng dựa trên thời gian
@@ -365,6 +391,31 @@ export default function DashboardAppPage() {
           amount: timeMapBalances[time]
         }));
         setBalances(resultBalances.map((profit) => profit.amount));
+
+        // 
+        const dataCommissions = response.data.commissions.map((commission) => commission);
+
+        // Tạo một đối tượng để lưu trữ tổng số lượng dựa trên thời gian
+        const timeMapCommissions = {};
+
+        // Lặp qua mảng dữ liệu và tính tổng số lượng dựa trên thời gian
+        dataCommissions.forEach(item => {
+          const { time, amount } = item;
+          if (timeMapCommissions[time] === undefined) {
+            timeMapCommissions[time] = 0;
+          }
+          timeMapCommissions[time] += amount;
+        });
+
+
+        // Chuyển đổi đối tượng thành một mảng kết quả
+        const resultCommissions = Object.keys(timeMapCommissions).map(time => ({
+          time: parseInt(time, 10),
+          amount: timeMapCommissions[time]
+        }));
+
+        setCommissionLabel(resultCommissions.map((commission) => convertToDate(commission.time)));
+        setCommissions(resultCommissions.map((commission) => commission.amount));
       })
       .catch((error) => {
         if (error.response.status === 403) {
@@ -402,7 +453,15 @@ export default function DashboardAppPage() {
       type: 'line',
       data: balances,
       yAxis: 1,
+    },
+  ];
 
+  const chartData2 = [
+    {
+      name: 'Commission',
+      type: 'line',
+      data: commissions,
+      yAxis: 0,
     },
   ];
 
@@ -462,6 +521,46 @@ export default function DashboardAppPage() {
     },
   });
 
+  const chartOptions2 = useChart({
+    plotOptions: { bar: { columnWidth: '16%' } },
+    fill: {
+      type: 'solid',
+    },
+    colors: ["#ff3273"],
+    labels: commissionLabel,
+    xaxis: { type: 'text' },
+    yaxis: [
+      // Cấu hình cho trục y-axis bên trái
+      {
+        title: {
+          text: 'Commissions',
+        },
+        labels: {
+          "formatter": function (value) {
+            return fShortenNumber(value); // Định dạng số nguyên
+          },
+        },
+      },
+      // Cấu hình cho trục y-axis bên phải
+    ],
+
+    tooltip: {
+      shared: true,
+      intersect: false,
+      y: {
+        formatter: (y) => {
+          if (typeof y !== 'undefined') {
+            return y === 0 ? '0 USD' : `${fShortenNumber(y)} USD`;
+          }
+          return y;
+        },
+      },
+    },
+    stroke: {
+      width: 1, // Điều chỉnh độ lớn của line ở đây (số lớn hơn = line to hơn)
+    },
+  });
+
   return (
     <>
       <Helmet>
@@ -469,22 +568,22 @@ export default function DashboardAppPage() {
         <link rel='icon' type='image/x-icon' href='/assets/logo.svg' />
       </Helmet>
 
-      <Container maxWidth="xl"> 
+      <Container maxWidth="xl">
         <Typography variant="h4" sx={{ mb: 5 }}>
           Dashboard
         </Typography>
-        <Grid item xs={12} sm={12} md={12} >   
+        <Grid item xs={12} sm={12} md={12} >
 
-            <Input className="form-field " onClick={handleOpen2} type="text" value={ 'Search' || currentExness === "All" ? currentExness : `Exness ID ${currentExness}`} style={{ minWidth: "200px", marginBottom: "15px", paddingLeft: "10px", cursor: "pointer!important", }} />
-          <Popover 
-            
+          <Input className="form-field " onClick={handleOpen2} type="text" value={'Search' || currentExness === "All" ? currentExness : `Exness ID ${currentExness}`} style={{ minWidth: "200px", marginBottom: "15px", paddingLeft: "10px", cursor: "pointer!important", }} />
+          <Popover
+
             open={Boolean(open2)}
             anchorEl={open2}
             onClose={handleClose2}
             anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
             transformOrigin={{ vertical: 'top', horizontal: 'left' }}
-            PaperProps ={{
-            
+            PaperProps={{
+
               sx: {
                 p: 1,
                 width: 240,
@@ -506,44 +605,61 @@ export default function DashboardAppPage() {
           </Popover>
         </Grid>
 
-        <Grid  container spacing={3}>
-              <Grid item xs={12} sm={4} md={4}>
+        <Grid container spacing={3}>
+          {isAdmin ? (
+            <>
+              <Grid item xs={12} sm={3} md={3}>
                 <AppWidgetSummary className="balance-section" sx={{ mb: 2 }} total={balance} title="Balance" icon={'mi:bar-chart-alt'} />
                 <AppWidgetSummary className="deposit-section" sx={{ mb: 2 }} title="Total Deposit" total={prevDeposit} icon={'iconoir:coins-swap'} />
-
               </Grid>
+              <Grid item xs={12} sm={3} md={3}>
+                <AppWidgetSummaryUSD className="commission-section" sx={{ mb: 2 }} title="Total Commissions" total={commission} color="info" icon={'mi:layers'} />
+                <AppWidgetSummary className="withdraw-section" sx={{ mb: 2 }} title="Total Withdraw" total={prevWithdraw} icon={'iconoir:coins-swap'} />
+              </Grid><Grid item xs={12} sm={3} md={3}>
+                <AppWidgetSummaryCommissions className="commission-section" sx={{ mb: 2 }} title="Total Commissions From Network" total={totalCommissions} color="info" icon={'mi:layers'} />
+              </Grid><Grid id item xs={12} sm={3} md={3}>
+                <AppCurrentVisits className="assets-section"
+                  title="Assets last month"
+                  change={balance - prevBalance}
+                  chartData={[
+                    { label: 'Profit', value: prevProfit },
+                    { label: 'Deposit', value: prevDeposit > 0 ? prevDeposit : prevDeposit === 0 ? 0 : Math.abs(prevDeposit) },
+                    { label: 'Withdraw', value: prevWithdraw > 0 ? prevWithdraw : prevWithdraw === 0 ? 0 : Math.abs(prevWithdraw) },
+                  ]}
+                  chartColors={[
+                    prevProfit > 0 ? theme.palette.success.main : theme.palette.warning.main,
+                    theme.palette.primary.main,
+                    theme.palette.error.main,
+                  ]}
+                />
+              </Grid>
+            </>) :
+            (<> <Grid item xs={12} sm={4} md={4}>
+              <AppWidgetSummary className="balance-section" sx={{ mb: 2 }} total={balance} title="Balance" icon={'mi:bar-chart-alt'} />
+              <AppWidgetSummary className="deposit-section" sx={{ mb: 2 }} title="Total Deposit" total={prevDeposit} icon={'iconoir:coins-swap'} />
+
+            </Grid>
               <Grid item xs={12} sm={4} md={4}>
                 <AppWidgetSummaryUSD className="commission-section" sx={{ mb: 2 }} title="Total Commissions" total={commission} color="info" icon={'mi:layers'} />
                 <AppWidgetSummary className="withdraw-section" sx={{ mb: 2 }} title="Total Withdraw" total={prevWithdraw} icon={'iconoir:coins-swap'} />
-              </Grid>
+              </Grid><Grid id item xs={12} sm={4} md={4}>
+                <AppCurrentVisits className="assets-section"
+                  title="Assets last month"
+                  change={balance - prevBalance}
+                  chartData={[
+                    { label: 'Profit', value: prevProfit },
+                    { label: 'Deposit', value: prevDeposit > 0 ? prevDeposit : prevDeposit === 0 ? 0 : Math.abs(prevDeposit) },
+                    { label: 'Withdraw', value: prevWithdraw > 0 ? prevWithdraw : prevWithdraw === 0 ? 0 : Math.abs(prevWithdraw) },
+                  ]}
+                  chartColors={[
+                    prevProfit > 0 ? theme.palette.success.main : theme.palette.warning.main,
+                    theme.palette.primary.main,
+                    theme.palette.error.main,
+                  ]}
+                />
+              </Grid></>)}
 
 
-
-          <Grid id item xs={12} sm={4} md={4}>
-            <AppCurrentVisits className="assets-section"
-              title="Assets last month"
-              change={balance - prevBalance}
-              chartData={[
-                { label: 'Profit', value: prevProfit },
-                { label: 'Deposit', value: prevDeposit > 0 ? prevDeposit : prevDeposit === 0 ? 0 : Math.abs(prevDeposit) },
-                { label: 'Withdraw', value: prevWithdraw > 0 ? prevWithdraw : prevWithdraw === 0 ? 0 : Math.abs(prevWithdraw) },
-              ]}
-              chartColors={[
-                prevProfit > 0 ? theme.palette.success.main : theme.palette.warning.main,
-                theme.palette.primary.main,
-                theme.palette.error.main,
-              ]}
-            />
-          </Grid>
-
-          {/* // { label: 'IB', value: 3 } // theme.palette.warning.main
-          <Grid item xs={12} sm={6} md={3}>
-            <AppWidgetSummary title="Item Orders" total={1723315} color="warning" icon={'ant-design:windows-filled'} />
-          </Grid>
-
-          <Grid item xs={12} sm={6} md={3}>
-            <AppWidgetSummary title="Bug Reports" total={234} color="error" icon={'ant-design:bug-filled'} />
-          </Grid> */}
 
           <Grid item xs={12} sm={12} md={12}>
             <IconButton
@@ -569,12 +685,12 @@ export default function DashboardAppPage() {
                 sx: {
                   p: 1,
                   width: 160,
-                  marginTop: '50px' ,
+                  marginTop: '50px',
                   '& .MuiMenuItem-root': {
                     px: 1,
                     typography: 'body2',
                     borderRadius: 0.75,
-              
+
                   },
                 },
               }}
@@ -585,8 +701,6 @@ export default function DashboardAppPage() {
                   {item}
                 </MenuItem>
               })}
-
-
             </Popover>
           </Grid>
 
@@ -595,18 +709,19 @@ export default function DashboardAppPage() {
           <Grid item xs={12} md={12} lg={12}>
 
             {/* <AppWebsiteVisits
-              title="Profit history"
+              title="Commission history"
               subheader=""
-              chartLabels={label}
-              chartData={[
-                {
-                  name: 'Profit',
-                  type: 'line',
-                  fill: 'solid',
-                  data: [1, 2, 3, 4, 5],
-                },
-              ]}
+              chartLabels={commissionLabel}
+              chartData={chartData2}
             /> */}
+
+            <Card>
+              <CardHeader title={"Commission history"} subheader={""} />
+
+              <Box sx={{ p: 3, pb: 1 }} dir="ltr">
+                <ReactApexChart type="line" series={chartData2} options={chartOptions2} height={364} />
+              </Box>
+            </Card>
 
             <Card>
               <CardHeader title={"Profit history"} subheader={""} />
@@ -617,104 +732,12 @@ export default function DashboardAppPage() {
             </Card>
           </Grid>
 
-
-          {/* <Grid item xs={12} md={6} lg={8}>
-            <AppConversionRates
-              title="Conversion Rates"
-              subheader="(+43%) than last year"
-              chartData={[
-                { label: 'Italy', value: 400 },
-                { label: 'Japan', value: 430 },
-                { label: 'China', value: 448 },
-                { label: 'Canada', value: 470 },
-                { label: 'France', value: 540 },
-                { label: 'Germany', value: 580 },
-                { label: 'South Korea', value: 690 },
-                { label: 'Netherlands', value: 1100 },
-                { label: 'United States', value: 1200 },
-                { label: 'United Kingdom', value: 1380 },
-              ]}
-            />
-          </Grid> */}
-
-          {/* <Grid item xs={12} md={6} lg={4}>
-            <AppCurrentSubject
-              title="Current Subject"
-              chartLabels={['English', 'History', 'Physics', 'Geography', 'Chinese', 'Math']}
-              chartData={[
-                { name: 'Series 1', data: [80, 50, 30, 40, 100, 20] },
-                { name: 'Series 2', data: [20, 30, 40, 80, 20, 80] },
-                { name: 'Series 3', data: [44, 76, 78, 13, 43, 10] },
-              ]}
-              chartColors={[...Array(6)].map(() => theme.palette.text.secondary)}
-            />
-          </Grid> */}
-
           <Grid item xs={12} md={12} lg={12}>
             <AppNewsUpdate
               title="Transactions"
               list={listTransaction}
             />
           </Grid>
-
-          {/* <Grid item xs={12} md={6} lg={4}>
-            <AppOrderTimeline
-              title="Order Timeline"
-              list={[...Array(5)].map((_, index) => ({
-                id: faker.datatype.uuid(),
-                title: [
-                  '1983, orders, $4220',
-                  '12 Invoices have been paid',
-                  'Order #37745 from September',
-                  'New order placed #XF-2356',
-                  'New order placed #XF-2346',
-                ][index],
-                type: `order${index + 1}`,
-                time: faker.date.past(),
-              }))}
-            />
-          </Grid> */}
-
-          {/* <Grid item xs={12} md={6} lg={4}>
-            <AppTrafficBySite
-              title="Traffic by Site"
-              list={[
-                {
-                  name: 'FaceBook',
-                  value: 323234,
-                  icon: <Iconify icon={'eva:facebook-fill'} color="#1877F2" width={32} />,
-                },
-                {
-                  name: 'Google',
-                  value: 341212,
-                  icon: <Iconify icon={'eva:google-fill'} color="#DF3E30" width={32} />,
-                },
-                {
-                  name: 'Linkedin',
-                  value: 411213,
-                  icon: <Iconify icon={'eva:linkedin-fill'} color="#006097" width={32} />,
-                },
-                {
-                  name: 'Twitter',
-                  value: 443232,
-                  icon: <Iconify icon={'eva:twitter-fill'} color="#1C9CEA" width={32} />,
-                },
-              ]}
-            />
-          </Grid>
-
-          <Grid item xs={12} md={6} lg={8}>
-            <AppTasks
-              title="Tasks"
-              list={[
-                { id: '1', label: 'Create FireStone Logo' },
-                { id: '2', label: 'Add SCSS and JS files if required' },
-                { id: '3', label: 'Stakeholder Meeting' },
-                { id: '4', label: 'Scoping & Estimations' },
-                { id: '5', label: 'Sprint Showcase' },
-              ]}
-            />
-          </Grid> */}
         </Grid>
       </Container>
     </>
