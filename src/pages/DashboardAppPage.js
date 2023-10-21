@@ -618,8 +618,8 @@ export default function DashboardAppPage() {
                 <AppWidgetSummaryCommissions className="commission-section total-commission" sx={{ mb: 2 }} title="Total Commissions From Network" total={totalCommissions} color="info" icon={'mi:layers'} />
               </Grid><Grid id item xs={12} sm={3} md={3}>
                 <AppCurrentVisits className="assets-section"
-                  title="Assets last month"
-                  change={balance - prevBalance}
+                  title={`Change from ${label[0]}`}
+                  change={balance - balances[0]}
                   chartData={[
                     { label: 'Profit', value: prevProfit },
                     { label: 'Deposit', value: prevDeposit > 0 ? prevDeposit : prevDeposit === 0 ? 0 : Math.abs(prevDeposit) },
@@ -643,8 +643,8 @@ export default function DashboardAppPage() {
                 <AppWidgetSummary className="withdraw-section" sx={{ mb: 2 }} title="Total Withdraw" total={prevWithdraw} icon={'iconoir:coins-swap'} />
               </Grid><Grid id item xs={12} sm={4} md={4}>
                 <AppCurrentVisits className="assets-section"
-                  title="Assets last month"
-                  change={balance - prevBalance}
+                  title={`Change from ${label[0]}`}
+                  change={balance - balances[0]}
                   chartData={[
                     { label: 'Profit', value: prevProfit },
                     { label: 'Deposit', value: prevDeposit > 0 ? prevDeposit : prevDeposit === 0 ? 0 : Math.abs(prevDeposit) },
