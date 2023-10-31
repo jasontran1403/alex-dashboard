@@ -491,7 +491,8 @@ export default function DashboardAppPage() {
           text: 'Balances',
         },
         tickAmount: 5,
-        max: balance === 0 ? 50000 : balance > 500000 ? balance * 2 : balance * 3,
+        max: balance*1.2,
+        min: balance,
         labels: {
           "formatter": function (value) {
             if (typeof value === "undefined" || value === 5e-324) {
