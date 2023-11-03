@@ -40,11 +40,53 @@ export default function useChart(options) {
 
     // Chart
     chart: {
-      toolbar: { show: false },
-      zoom: { enabled: false },
-      // animations: { enabled: false },
-      foreColor: theme.palette.text.disabled,
-      fontFamily: theme.typography.fontFamily,
+      toolbar: {
+        offsetX: 0,
+        offsetY: -30,
+        tools: {
+          download: false,
+          selection: true,
+          zoom: false,
+          zoomin: true,
+          zoomout: true,
+          pan: true,
+        },
+        
+        // export: {
+        //   csv: {
+        //     filename: undefined,
+        //     columnDelimiter: ',',
+        //     headerCategory: 'category',
+        //     headerValue: 'value',
+        //     dateFormatter(timestamp) {
+        //       return new Date(timestamp).toDateString()
+        //     }
+        //   },
+        //   svg: {
+        //     filename: undefined,
+        //   },
+        //   png: {
+        //     filename: undefined,
+        //   }
+        // },
+        autoSelected: 'pan',
+      },
+    },
+
+    // States
+    states: {
+      hover: {
+        filter: {
+          type: 'lighten',
+          value: 0.04,
+        },
+      },
+      active: {
+        filter: {
+          type: 'darken',
+          value: 0.88,
+        },
+      },
     },
 
     // States
