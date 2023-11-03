@@ -492,7 +492,7 @@ export default function DashboardAppPage() {
         },
         tickAmount: 5,
         max: balance*1.1,
-        min: balance/2,
+        min: balance/3,
         labels: {
           "formatter": function (value) {
             if (typeof value === "undefined" || value === 5e-324) {
