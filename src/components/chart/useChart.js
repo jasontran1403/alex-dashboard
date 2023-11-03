@@ -89,22 +89,6 @@ export default function useChart(options) {
       },
     },
 
-    // States
-    states: {
-      hover: {
-        filter: {
-          type: 'lighten',
-          value: 0.04,
-        },
-      },
-      active: {
-        filter: {
-          type: 'darken',
-          value: 0.88,
-        },
-      },
-    },
-
     // Fill
     fill: {
       opacity: 1,
