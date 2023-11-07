@@ -25,11 +25,17 @@ ShopProductCard.propTypes = {
 };
 
 export default function ShopProductCard({ product, onProductClick }) {
-  const { email, referrer, price, image } = product;
+  const { email, refferal, price, image } = product;
+  let imageURL = "";
+  if (image === "" || image === null) {
+    imageURL = `/assets/images/avatars/avatar_8.jpg`;
+  } else {
+    imageURL = image;
+  }
   return (
-    <Card style={{ cursor: "pointer" }} onClick={() => onProductClick(product.email, product.referrer)} >
+    <Card style={{ cursor: "pointer" }} onClick={() => onProductClick(email, refferal)} >
       <Box sx={{ pt: '100%', position: 'relative' }}>
-        <StyledProductImg alt={`/assets/images/avatars/avatar_8.jpg`} src={image ? `data:image/png;base64,${image}` : `/assets/images/avatars/avatar_8.jpg`} />
+        <StyledProductImg alt={`/assets/images/avatars/avatar_8.jpg`} src={imageURL} />
       </Box>
 
       <Stack spacing={2} sx={{ p: 3 }} style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", justifyContent: "space-between" }}>

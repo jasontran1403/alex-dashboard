@@ -157,7 +157,6 @@ export default function Profile() {
     const config = {
       method: 'get',
       url: `${prod}/api/v1/secured/avatar/${currentEmail}`,
-      responseType: 'blob',
       headers: {
         'Authorization': `Bearer ${currentAccessToken}`
       }
@@ -166,9 +165,13 @@ export default function Profile() {
     axios(config)
       .then((response) => {
         // Chuyển dữ liệu blob thành URL cho hình ảnh
-        const imgUrl = URL.createObjectURL(response.data);
-        localStorage.setItem("image", imgUrl);
-        setImage(imgUrl);
+        if (response.data === "") {
+          setImage("assets/images/avatars/25.jpg");
+          localStorage.setItem("image", "assets/images/avatars/25.jpg");
+        } else {
+          setImage(response.data);
+          localStorage.setItem("image", response.data);
+        }
       })
       .catch((error) => {
         console.log(error);
@@ -253,7 +256,6 @@ export default function Profile() {
     const config = {
       method: 'post',
       maxBodyLength: Infinity,
-      responseType: 'blob',
       url: `${prod}/api/v1/secured/upload-avatar`,
       headers: {
         'Authorization': `Bearer ${currentAccessToken}`,
@@ -263,9 +265,8 @@ export default function Profile() {
 
     axios(config)
       .then((response) => {
-        const imgUrl = URL.createObjectURL(response.data);
-        localStorage.setItem("image", imgUrl);
-        setImage(imgUrl);
+        localStorage.setItem("image", response.data);
+        setImage(response.data);
       })
       .catch((error) => {
         console.log(error);
