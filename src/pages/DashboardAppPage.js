@@ -102,6 +102,23 @@ export default function DashboardAppPage() {
   const [isAdmin] = useState(currentEmail === "trantuongthuy@gmail.com");
   const [totalCommissions, setTotalCommissions] = useState(0.0);
 
+  const [min, setMin] = useState(0.0);
+  const [max, setMax] = useState(0.0);
+
+  const timPhanTuLonNhat = (arr) => {
+    if (arr.length === 0) {
+      return null; // Trường hợp mảng rỗng
+    }
+    return arr.reduce((max, current) => (current.amount > max.amount ? current : max), arr[0]);
+  }
+
+  const timPhanTuNhoNhat = (arr) => {
+    if (arr.length === 0) {
+      return null; // Trường hợp mảng rỗng
+    }
+    return arr.reduce((min, current) => (current.amount < min.amount ? current : min), arr[0]);
+  }
+
   useEffect(() => {
     if (currentEmail === "trantuongthuy@gmail.com") {
       const config = {
@@ -391,6 +408,9 @@ export default function DashboardAppPage() {
         }));
         setBalances(resultBalances.map((profit) => profit.amount));
 
+        setMax(timPhanTuLonNhat(resultBalances).amount);
+        setMin(timPhanTuNhoNhat(resultBalances).amount);
+
         // 
         const dataCommissions = response.data.commissions.map((commission) => commission);
 
@@ -491,8 +511,8 @@ export default function DashboardAppPage() {
           text: 'Balances',
         },
         tickAmount: 5,
-        max: balance * 1.1,
-        min: balance / 3,
+        max: max+max*0.1,
+        min: min-min*0.1,
         labels: {
           "formatter": function (value) {
             if (typeof value === "undefined" || value === 5e-324) {
