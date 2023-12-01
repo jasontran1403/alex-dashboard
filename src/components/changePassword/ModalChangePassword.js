@@ -95,24 +95,24 @@ export default function ModalChangePassword({ isOpen, onClose }) {
                 .catch((error) => {
                     if (error.response.status === 403) {
                         Swal.fire({
-                          title: "An error occured",
-                          icon: "error",
-                          timer: 3000,
-                          position: 'center',
-                          showConfirmButton: false
-                      });
-                      } else {
+                            title: "An error occured",
+                            icon: "error",
+                            timer: 3000,
+                            position: 'center',
+                            showConfirmButton: false
+                        });
+                    } else {
                         Swal.fire({
-                          title: "Session is ended, please login again !",
-                          icon: "error",
-                          timer: 3000,
-                          position: 'center',
-                          showConfirmButton: false
-                      }).then(() => {
-                        localStorage.clear();
-                          navigate('/login', { replace: true });
-                      });
-                      }
+                            title: "Session is ended, please login again !",
+                            icon: "error",
+                            timer: 3000,
+                            position: 'center',
+                            showConfirmButton: false
+                        }).then(() => {
+                            localStorage.clear();
+                            navigate('/login', { replace: true });
+                        });
+                    }
                 });
 
         }

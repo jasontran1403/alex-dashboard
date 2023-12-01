@@ -145,8 +145,8 @@ export default function Profile() {
             position: 'center',
             showConfirmButton: false
           }).then(() => {
-            localStorage.clear();
-            navigate('/login', { replace: true });
+            // localStorage.clear();
+            // navigate('/login', { replace: true });
           });
         }
       });
@@ -240,8 +240,8 @@ export default function Profile() {
             position: 'center',
             showConfirmButton: false
           }).then(() => {
-            localStorage.clear();
-            navigate('/login', { replace: true });
+            // localStorage.clear();
+            // navigate('/login', { replace: true });
           });
         }
       });

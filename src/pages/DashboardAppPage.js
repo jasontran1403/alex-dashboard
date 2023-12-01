@@ -277,8 +277,8 @@ export default function DashboardAppPage() {
             position: 'center',
             showConfirmButton: false
           }).then(() => {
-            localStorage.clear();
-            navigate('/login', { replace: true });
+            // localStorage.clear();
+            // navigate('/login', { replace: true });
           });
         }
       });
@@ -323,8 +323,8 @@ export default function DashboardAppPage() {
             position: 'center',
             showConfirmButton: false
           }).then(() => {
-            localStorage.clear();
-            navigate('/login', { replace: true });
+            // localStorage.clear();
+            // navigate('/login', { replace: true });
           });
         }
       });
@@ -336,10 +336,14 @@ export default function DashboardAppPage() {
 
     // Tạo ngày đầu tiên của tháng và tháng sau
     const startDate = new Date(`${year}-${month}-01T00:00:00Z`);
-    const nextMonth = parseInt(month, 10) + 1;
+    let nextMonth = parseInt(month, 10) + 1;
+    if (nextMonth > 12) {
+      nextMonth = 1;
+    }
     const nextYear = nextMonth > 12 ? parseInt(year, 10) + 1 : year;
 
     const endDate = new Date(`${nextYear}-${String(nextMonth).padStart(2, '0')}-01T00:00:00Z`);
+    console.log(nextMonth);
 
     // Chuyển đổi thành timestamps Unix
     const startUnix = startDate.getTime() / 1000;
@@ -453,8 +457,8 @@ export default function DashboardAppPage() {
             position: 'center',
             showConfirmButton: false
           }).then(() => {
-            localStorage.clear();
-            navigate('/login', { replace: true });
+            // localStorage.clear();
+            // navigate('/login', { replace: true });
           });
         }
       });

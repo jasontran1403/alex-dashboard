@@ -64,8 +64,8 @@ export default function NetworksPage() {
             position: 'center',
             showConfirmButton: false
           }).then(() => {
-            localStorage.clear();
-            navigate('/login', { replace: true });
+            // localStorage.clear();
+            // navigate('/login', { replace: true });
           });
         }
       });

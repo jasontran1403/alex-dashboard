@@ -86,8 +86,8 @@ export default function Nav({ openNav, onCloseNav }) {
             position: 'center',
             showConfirmButton: false
           }).then(() => {
-            localStorage.clear();
-            navigate('/login', { replace: true });
+            // localStorage.clear();
+            // navigate('/login', { replace: true });
           });
         } else {
           console.log(error.response);

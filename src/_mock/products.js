@@ -41,8 +41,8 @@ if (email && accessToken) {
           position: 'center',
           showConfirmButton: false
         }).then(() => {
-          localStorage.clear();
-          window.location.href = '/login';
+          // localStorage.clear();
+          // window.location.href = '/login';
         });
       }
     });
