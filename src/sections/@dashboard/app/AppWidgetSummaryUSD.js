@@ -32,35 +32,21 @@ AppWidgetSummaryUSD.propTypes = {
 
 export default function AppWidgetSummaryUSD({ title, total, icon, color = 'primary', sx, ...other }) {
   return (
-    <Card
-      sx={{
-        py: 5,
-        boxShadow: 0,
-        textAlign: 'center',
-        color: (theme) => theme.palette[color].darker,
-        bgcolor: (theme) => theme.palette[color].lighter,
-        ...sx,
-      }}
-      {...other}
-    >
-      <StyledIcon
-        sx={{
-          color: (theme) => theme.palette[color].dark,
-          backgroundImage: (theme) =>
-            `linear-gradient(135deg, ${alpha(theme.palette[color].dark, 0)} 0%, ${alpha(
-              theme.palette[color].dark,
-              0.24
-            )} 100%)`,
-        }}
-      >
-        <Iconify icon={icon} width={24} height={24} />
-      </StyledIcon>
+    <div className='card__wrapper'>
+    <div className='card__header'>
+      <div className='commission-background card__header-wrapper'>
+      <Iconify className='card__header-icon' icon={icon} width={24} height={24} />
+        <button className='card__header-btn'>+</button>
+      </div>
+    </div>
 
-      <Typography variant="h3">{fCurrencyUSD(total)}</Typography>
+    <div className='card__body'>
+      <h3>{fCurrencyUSD(total)}</h3>
+    </div>
 
-      <Typography variant="subtitle2" sx={{ opacity: 0.72 }}>
-        {title}
-      </Typography>
-    </Card>
+    <div className='card__footer'>
+      {title}
+    </div>
+  </div>
   );
 }

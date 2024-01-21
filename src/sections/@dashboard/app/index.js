@@ -9,3 +9,5 @@ export { default as AppWidgetSummaryUSD } from './AppWidgetSummaryUSD';
 export { default as AppWidgetSummaryCommissions } from './AppWidgetSummaryUSD';
 export { default as AppCurrentSubject } from './AppCurrentSubject';
 export { default as AppConversionRates } from './AppConversionRates';
+export { default as AppWidgetSummaryDeposit } from './AppWidgetSummaryDeposit'
+export { default as AppWidgetSummaryWithdraw} from './AppWidgetSummaryWithdraw'

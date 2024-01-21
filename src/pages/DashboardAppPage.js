@@ -17,17 +17,13 @@ import { prod, dev } from "../utils/env";
 
 // sections
 import {
-  AppTasks,
   AppNewsUpdate,
-  AppOrderTimeline,
   AppCurrentVisits,
-  AppWebsiteVisits,
-  AppTrafficBySite,
   AppWidgetSummary,
   AppWidgetSummaryUSD,
   AppWidgetSummaryCommissions,
-  AppCurrentSubject,
-  AppConversionRates,
+  AppWidgetSummaryDeposit,
+  AppWidgetSummaryWithdraw,
 } from '../sections/@dashboard/app';
 
 
@@ -633,11 +629,11 @@ export default function DashboardAppPage() {
             <>
               <Grid item xs={12} sm={3} md={3}>
                 <AppWidgetSummary className="balance-section" sx={{ mb: 2 }} total={balance} title="Balance" icon={'mi:bar-chart-alt'} />
-                <AppWidgetSummary className="deposit-section" sx={{ mb: 2 }} title="Total Deposit" total={prevDeposit} icon={'iconoir:coins-swap'} />
+                <AppWidgetSummaryDeposit className="deposit-section" sx={{ mb: 2 }} title="Total Deposit" total={prevDeposit} icon={'iconoir:coins-swap'} />
               </Grid>
               <Grid item xs={12} sm={3} md={3}>
                 <AppWidgetSummaryUSD className="commission-section" sx={{ mb: 2 }} title="Total Commissions" total={commission} color="info" icon={'mi:layers'} />
-                <AppWidgetSummary className="withdraw-section" sx={{ mb: 2 }} title="Total Withdraw" total={prevWithdraw} icon={'iconoir:coins-swap'} />
+                <AppWidgetSummaryWithdraw className="withdraw-section" sx={{ mb: 2 }} title="Total Withdraw" total={prevWithdraw} icon={'iconoir:coins-swap'} />
               </Grid><Grid item xs={12} sm={3} md={3}>
                 <AppWidgetSummaryCommissions className="commission-section total-commission" sx={{ mb: 2 }} title="Total Commissions From Network" total={totalCommissions} color="info" icon={'mi:layers'} />
               </Grid><Grid id item xs={12} sm={3} md={3}>

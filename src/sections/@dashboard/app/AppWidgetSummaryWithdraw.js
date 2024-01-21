@@ -9,21 +9,15 @@ import Iconify from '../../../components/iconify';
 
 // ----------------------------------------------------------------------
 
-AppWidgetSummary.propTypes = {
-  color: PropTypes.string,
-  icon: PropTypes.string,
-  title: PropTypes.string.isRequired,
-  total: PropTypes.number.isRequired,
-  sx: PropTypes.object,
-};
 
-export default function AppWidgetSummary({ title, total, icon, color = 'primary', sx, ...other }) {
+
+export default function AppWidgetSummaryWithdraw({ title, total, icon, color = 'primary', sx, ...other }) {
   return (
     <div className='card__wrapper'>
       <div className='card__header'>
-        <div className='card__header-wrapper'>
-          <Iconify className='card__header-icon' icon={icon} width={24} height={24} />
-          <button className='card__header-btn'>+</button>
+        <div className='withdraw-background card__header-wrapper'>
+          <Iconify className='withdraw-icon card__header-icon' icon={icon} width={24} height={24} />
+          <button className='withdraw-icon card__header-btn'>+</button>
         </div>
       </div>
 

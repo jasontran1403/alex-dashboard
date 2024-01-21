@@ -1,34 +1,33 @@
-
 /* Reset CSS */
 * {
-    box-sizing: inherit;
-    padding: 0;
-    margin: 0;
+  box-sizing: inherit;
+  padding: 0;
+  margin: 0;
 }
 
 
 /* Base-css */
 
 html {
-    box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 :root {
-  --whitecolor : #fff;
+  --whitecolor: #fff;
   --blackcolor: #000;
 }
 
 
 /* login-section  */
 .login-section {
-    background: url('/public/background.jpg') top center / cover no-repeat;
-    max-width: 1600px;
+  background: url('/public/background.jpg') top center / cover no-repeat;
+  max-width: 1600px;
 }
 
 .logo-img {
-    position: fixed;
-    top: 5%;
-    left: 3%;
+  position: fixed;
+  top: 5%;
+  left: 3%;
 }
 
 
@@ -95,14 +94,14 @@ html {
   color: var(--whitecolor);
 }
 
-.balance-section > div {
+.balance-section>div {
   background-color: var(--whitecolor);
   height: 80px;
   width: 80px;
   background-image: none;
 }
 
-.balance-section > div > svg {
+.balance-section>div>svg {
   height: 40px;
   width: 40px;
   color: #495aff;
@@ -111,10 +110,10 @@ html {
 .deposit-section {
   background-color: #fb6d3f;
   color: var(--whitecolor);
-  
+
 }
 
-.deposit-section > div {
+.deposit-section>div {
   background-color: var(--whitecolor);
   height: 80px;
   width: 80px;
@@ -122,7 +121,7 @@ html {
 
 }
 
-.deposit-section > div > svg {
+.deposit-section>div>svg {
   height: 40px;
   width: 40px;
   rotate: 270deg;
@@ -133,16 +132,16 @@ html {
 .commission-section {
   background-color: #ff3273;
   color: var(--whitecolor);
-  
+
 }
 
 .total-commission {
-  background-color: #dcee40!important;
+  background-color: #dcee40 !important;
   color: var(--whitecolor);
-  
+
 }
 
-.commission-section > div {
+.commission-section>div {
   background-color: var(--whitecolor);
   height: 80px;
   width: 80px;
@@ -150,18 +149,18 @@ html {
 
 }
 
-.commission-section > div > svg {
+.commission-section>div>svg {
   height: 40px;
   width: 40px;
   color: #ff3273;
 }
 
 .withdraw-section {
-  background-color:#5dc95a;
+  background-color: #5dc95a;
   color: var(--whitecolor);
 }
 
-.withdraw-section > div {
+.withdraw-section>div {
   background-color: var(--whitecolor);
   height: 80px;
   width: 80px;
@@ -169,7 +168,7 @@ html {
 
 }
 
-.withdraw-section > div > svg {
+.withdraw-section>div>svg {
   height: 40px;
   width: 40px;
   color: #5dc95a;
@@ -195,8 +194,9 @@ html {
   flex-direction: column;
   overflow: hidden;
   border-radius: 2rem;
-  box-shadow: 0px 1rem 1.5rem rgba(0,0,0,0.5);
+  box-shadow: 0px 1rem 1.5rem rgba(0, 0, 0, 0.5);
 }
+
 .card .banner {
   background-image: url("/public/background.jpg");
   background-position: center;
@@ -221,7 +221,7 @@ html {
   background-color: #fff;
   width: 100%;
   height: 100%;
-  box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.3);
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.3);
   border-radius: 50%;
   transform: translateY(50%);
   display: block;
@@ -249,7 +249,7 @@ html {
   width: 100%;
   opacity: 0;
   transition: .5s ease;
-  background-color: rgba(0,0,0,0.8);
+  background-color: rgba(0, 0, 0, 0.8);
   transform: translateY(50%);
   border-radius: 50%;
 
@@ -283,6 +283,7 @@ html {
   position: relative;
   box-sizing: border-box;
 }
+
 .card .menu .opener {
   width: 2.5rem;
   height: 2.5rem;
@@ -290,9 +291,11 @@ html {
   border-radius: 50%;
   transition: background-color 100ms ease-in-out;
 }
+
 .card .menu .opener:hover {
   background-color: #f2f2f2;
 }
+
 .card .menu .opener span {
   background-color: #404040;
   width: 0.4rem;
@@ -302,42 +305,51 @@ html {
   left: calc(50% - 0.2rem);
   border-radius: 50%;
 }
+
 .card .menu .opener span:nth-child(1) {
   top: 0.45rem;
 }
+
 .card .menu .opener span:nth-child(2) {
   top: 1.05rem;
 }
+
 .card .menu .opener span:nth-child(3) {
   top: 1.65rem;
 }
+
 .card h2.name {
   text-align: center;
   padding: 0 2rem 0.5rem;
   margin: 0;
 }
+
 .card .title {
   color: #a0a0a0;
   font-size: 0.85rem;
   text-align: center;
   padding: 0 2rem 1.2rem;
 }
+
 .card .actions {
   padding: 0 2rem 1.2rem;
   display: flex;
   flex-direction: column;
   order: 99;
 }
+
 .card .actions .follow-info {
   padding: 0 0 1rem;
   display: flex;
 }
+
 .card .actions .follow-info h2 {
   text-align: center;
   width: 50%;
   margin: 0;
   box-sizing: border-box;
 }
+
 .card .actions .follow-info h2 a {
   text-decoration: none;
   padding: 0.8rem;
@@ -346,6 +358,7 @@ html {
   border-radius: 0.8rem;
   transition: background-color 100ms ease-in-out;
 }
+
 .card .actions .follow-info h2 a span {
   color: #1c9eff;
   font-weight: bold;
@@ -353,17 +366,21 @@ html {
   transform: scaleY(1.3);
   transition: color 100ms ease-in-out;
 }
+
 .card .actions .follow-info h2 a small {
   color: #afafaf;
   font-size: 0.85rem;
   font-weight: normal;
 }
+
 .card .actions .follow-info h2 a:hover {
   background-color: #f2f2f2;
 }
+
 .card .actions .follow-info h2 a:hover span {
   color: #007ad6;
 }
+
 .card .actions .follow-btn button {
   color: inherit;
   font: inherit;
@@ -377,14 +394,17 @@ html {
   border-radius: 1.5rem/50%;
   transition: background-color 100ms ease-in-out, transform 200ms cubic-bezier(0.18, 0.89, 0.32, 1.28);
 }
+
 .card .actions .follow-btn button:hover {
   background-color: #efb10a;
   transform: scale(1.1);
 }
+
 .card .actions .follow-btn button:active {
   background-color: #e8a200;
   transform: scale(1);
 }
+
 .card .desc {
   text-align: justify;
   padding: 0 2rem 2.5rem;
@@ -392,9 +412,82 @@ html {
 }
 
 .profile-title {
-    padding-top: 30px;
-    font-size: 28px;
-    border-top: 3px solid #ccc;
+  padding-top: 30px;
+  font-size: 28px;
+  border-top: 3px solid #ccc;
 }
 
 
+.card__wrapper {
+  background-color: #fff;
+  border-radius: 10px;
+  margin-bottom: 30px;
+  box-shadow: 5px 5px 10px #ccc;
+}
+
+.card__header {
+  margin: 0 8px;
+  padding-top: 8px;
+}
+
+.card__header-wrapper {
+  min-height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #fe80a6;
+  padding-top: -5px;
+  border-radius: 10px;
+  color: white;
+}
+
+
+.card__header-icon {
+  margin-left: 8px;
+}
+
+.card__header-btn {
+  margin-right: 14px;
+}
+
+.card__header-btn {
+  background-color: transparent;
+  border: none;
+  font-size: 24px;
+  color: white;
+}
+
+.card__body {
+  margin: 0 10px;
+  margin: 8px 18px 26px 18px;
+}
+
+.card__footer {
+  margin: 0 18px;
+  padding-bottom: 16px;
+
+}
+
+.deposit-background {
+  background-color: #f5f5ff;
+}
+
+.deposit-icon {
+  color: black;
+}
+
+.withdraw-background {
+  background-color: #b4ff00;
+}
+
+.withdraw-icon {
+  color: black;
+}
+
+.commission-background {
+  background-color: #1edeff;
+}
+
+.totalCommission-background {
+  background-color: #c787f7
+};
