@@ -511,8 +511,8 @@ export default function DashboardAppPage() {
           text: 'Balances',
         },
         tickAmount: 5,
-        max: max+max*0.1,
-        min: min-min*0.1,
+        max: max + max * 0.1,
+        min: min - min * 0.1,
         labels: {
           "formatter": function (value) {
             if (typeof value === "undefined" || value === 5e-324) {
@@ -622,7 +622,7 @@ export default function DashboardAppPage() {
           </Popover>
         </Grid>
 
-        
+
 
         <Grid container spacing={3}>
           {isAdmin ? (
@@ -678,10 +678,6 @@ export default function DashboardAppPage() {
                 />
               </Grid></>)}
 
-
-
-
-
           <Grid item xs={12} md={12} lg={12} >
             <Card style={{ marginBottom: "30px" }}>
               <CardHeader title={"Commission history"} subheader={""} />
@@ -693,7 +689,6 @@ export default function DashboardAppPage() {
 
             <Card>
               <CardHeader title={"Profit history"} subheader={""} />
-
               <Box sx={{ p: 3, pb: 1 }} dir="ltr">
                 <ReactApexChart type="line" series={chartData} options={chartOptions} height={364} />
               </Box>
